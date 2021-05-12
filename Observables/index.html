@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,30 +8,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.6.3/rxjs.umd.min.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <input type="text"> <span></span>
     <script>
-        const { fromEvent } = rxjs;
-        const { map } = rxjs.operators;
+        const { fromEvent, Observable } = rxjs;
+        const { switchMap, tap, map } = rxjs.operators;
 
         let inputControl = document.querySelector('input');
         let spanControl = document.querySelector('span');
 
         // Creo el observable que emite cuando se escribe en el input
         const inputEventObservable$ = fromEvent(inputControl, 'input').pipe(
-            map(texto => {
-                if (texto === 'error') {
-                    throw new Error('El usuario escribio error');
-                } else { 
-                    return texto;
-                }
-            })
+            map(() => inputControl.value),
+            switchMap(texto =>
+                new Observable(observer => {
+                    if (texto === 'error') {
+                        observer.error('el usuario ingreso error');
+                    } else if (texto === 'complete') {
+                        observer.complete();
+                    } else {
+                        observer.next(texto)
+                    }
+                })
+            ),
         )
 
         // Me suscribo al observable
         const inputEventSubscription = inputEventObservable$.subscribe(
-            () =>  spanControl.innerHtml = inputControl.value.split('').reverse().join(''),
-            error => console.error(error)
+            () => spanControl.innerHtml = inputControl.value.split('').reverse().join(''),
+            error => console.error(error),
+            () => console.info('El usuario escribio complete')
         );
 
         // Luego de 30 segundos, me desuscribo y limpio
@@ -38,7 +46,8 @@
             inputEventSubscription.unsubscribe();
             spanControl.innerHTML = '';
             inputControl.value = '';
-        }, 5000);
+        }, 30000);
     </script>
 </body>
+
 </html>
