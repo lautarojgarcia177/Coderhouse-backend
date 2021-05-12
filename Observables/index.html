@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.6.3/rxjs.umd.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <input type="text"> <span></span>
+    <script>
+        const { fromEvent } = rxjs;
+        const { map } = rxjs.operators;
+
+        let inputControl = document.querySelector('input');
+        let spanControl = document.querySelector('span');
+
+        // Creo el observable que emite cuando se escribe en el input
+        const inputEventObservable$ = fromEvent(inputControl, 'input').pipe(
+            map(texto => {
+                if (texto === 'error') {
+                    throw new Error('El usuario escribio error');
+                } else { 
+                    return texto;
+                }
+            })
+        )
+
+        // Me suscribo al observable
+        const inputEventSubscription = inputEventObservable$.subscribe(
+            () =>  spanControl.innerHtml = inputControl.value.split('').reverse().join(''),
+            error => console.error(error)
+        );
+
+        // Luego de 30 segundos, me desuscribo y limpio
+        setTimeout(() => {
+            inputEventSubscription.unsubscribe();
+            spanControl.innerHTML = '';
+            inputControl.value = '';
+        }, 5000);
+    </script>
+</body>
+</html>
