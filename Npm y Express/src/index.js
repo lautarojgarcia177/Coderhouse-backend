@@ -27,7 +27,7 @@ app.get('/items', (req, res) => {
 let acumulador2 = 0;
 app.get('/item', (req, res) => {
     acumulador2++;
-    fs.promises.readFile('./productos', 'utf-8').then(productos => {
+    fs.promises.readFile('src/productos.txt', 'utf-8').then(productos => {
         productos = JSON.parse(productos);
         // Obtengo un producto al azar del array y lo devuelvo
         res.json({
