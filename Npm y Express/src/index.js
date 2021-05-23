@@ -17,7 +17,10 @@ app.get('/items', (req, res) => {
     fs.promises.readFile('src/productos.txt', 'utf-8').then(productos => {
         productos = JSON.parse(productos);
         // Agregarle la propiedad cantidad para ver la cantidad de productos
-        productos.cantidad = productos.length;
+        productos = { 
+            productos: productos,
+            cantidad: productos.length
+        };
         console.log(productos);
         res.send(productos);
     });
