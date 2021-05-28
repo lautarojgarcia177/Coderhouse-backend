@@ -32,7 +32,6 @@ class Productos {
     }
 
     agregarProducto(producto) {
-        console.log(producto)
         this.productos.length === 0 ? (producto.id = 1) : (producto.id = this.productos.length + 1);
         this.productos.push(producto);
     }
