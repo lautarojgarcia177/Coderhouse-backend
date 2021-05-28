@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // completar el codigo...
 app.get('/api/productos/listar', (req, res) => {
-    res.json(productos.obtenerProductos);
+    res.json(productos.obtenerProductos());
 });
 
 app.get('/api/productos/listar/:id', (req, res) => {
@@ -16,7 +16,8 @@ app.get('/api/productos/listar/:id', (req, res) => {
 });
 
 app.post('/api/productos/guardar', (req, res) => {
-    productos.guardar(req.body);
+    console.log(req.body);
+    productos.agregarProducto(req.body);
     res.send('Producto guardado con éxito');
 });
 
