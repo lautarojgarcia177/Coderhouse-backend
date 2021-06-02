@@ -18,7 +18,7 @@ app.post('/api/productos/guardar', (req, res) => {
     res.send('Producto guardado con éxito');
 });
 
-const server = app.listen(8080, () => console.log(`servidor escuchando en http://localhost:${puerto}`));
+const server = app.listen(8080, () => console.log(`servidor escuchando en http://localhost:8080`));
 
 // en caso de error, avisar
 server.on('error', console.warn);
