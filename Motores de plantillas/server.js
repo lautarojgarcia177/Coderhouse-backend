@@ -1,12 +1,19 @@
 const express = require('express');
+const handlebars = require('express-handlebars');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Motor de templates
+app.engine('handlebars', handlebars());
+app.set('view engine', 'handlebars');
+
 // Rutas
-const router = require('./routes/routes.js');
-app.use('/api', router);
+const apiRouter = require('./routes/apiRoutes.js');
+const mvcRouter = require('./routes/mvcRoutes.js');
+app.use('/api', apiRouter);
+app.use('/mvc', mvcRouter);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
