@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const productos = require('../modelo/productos');
+
 router.get('/productos/vista', (req, res) => {
-    console.log('been here');
-    res.render('vista');
+    const listado = productos.obtenerProductos();
+    res.render('vista', {
+        hayProductos: true,
+        productos: listado,
+    });
 });
 
 module.exports = router;

@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-// instancio el controlador
-const Productos = require('../api/productos');
-const productos = new Productos();
+// importo la instancia del controlador
+const productos = require('../modelo/productos');
 
 // Obtener todos los productos
 router.get('/productos/listar', (req, res) => {

@@ -50,4 +50,4 @@ class Productos {
     }
 }
 
-module.exports = Productos;
+module.exports = new Productos();
