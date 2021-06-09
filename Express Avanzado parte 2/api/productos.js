@@ -37,7 +37,7 @@ class Productos {
     }
 
     actualizarProducto(id, producto) {
-        const productoAActualizar = this.productos.find(_producto => _producto.id == id);
+        const productoAActualizar = this.productos.find(_producto => _producto.id == 10);
         if (!!productoAActualizar) {
             return Object.assign(productoAActualizar, producto);
         } else {
