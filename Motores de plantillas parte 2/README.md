@@ -6,6 +6,6 @@ Prefiero utilizar Pug por la sintaxis estilo Python, ya estoy harto de escribir 
 
 ## Ramas
 
-Pug se encuentra en la rama motores-de-plantillas-parte-2-pug
+Pug se encuentra en la rama motores-de-plantillas-parte-2-pug, aca utilice partials para reutilizar pedazos de template
 
-EJS se encuentra en la rama motores-de-plantillas-parte-2-ejs 
+EJS se encuentra en la rama motores-de-plantillas-parte-2-ejs, aca utiice bloques para reutilizar pedazos de template
