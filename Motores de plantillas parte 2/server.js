@@ -5,7 +5,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Motor de templates
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // Rutas
 const apiRouter = require('./routes/apiRoutes.js');
