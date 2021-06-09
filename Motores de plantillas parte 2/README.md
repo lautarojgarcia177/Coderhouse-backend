@@ -2,3 +2,7 @@
 
 # Justificación
 Prefiero utilizar Pug por la sintaxis estilo Python, ya estoy harto de escribir llaves y parentesis jajaja
+
+## Ramas
+Pug se encuentra en la rama motores-de-plantillas-parte-2-pug
+EJS se encuentra en la rama motores-de-plantillas-parte-2-ejs 
