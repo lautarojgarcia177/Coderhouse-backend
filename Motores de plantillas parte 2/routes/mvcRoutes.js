@@ -5,7 +5,7 @@ const router = express.Router();
 const productos = require('../modelo/productos');
 
 router.get('/productos/vista', (req, res) => {
-    res.render('index', {
+    res.render('vista', {
         hayProductos: true,
         productos: productos.obtenerProductos(),
     });
