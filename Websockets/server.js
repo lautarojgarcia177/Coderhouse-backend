@@ -21,7 +21,7 @@ app.set('view engine', 'handlebars');
 // Websocket
 const server = http.createServer(app);
 const io = require('./lib/websockets');
-io.start(server);
+io.setup(server);
 
 // Pongo a escuchar el servidor en el puerto indicado
 const PORT = process.env.PORT || 8080;
