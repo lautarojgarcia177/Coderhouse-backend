@@ -1,16 +1,40 @@
 // Websocket
 var socket = io();
 
-// Virtual DOM (?
-const inputNombre = document.getElementById('nombre');
-const inputPrecio = document.getElementById('precio');
-const inputFoto = document.getElementById('foto');
-const buttonSubmit = document.getElementById('submitBtn');
-
-buttonSubmit.addEventListener('click', () => {
-    const nuevoProducto = {
-        title: inputNombre.value,
-        price: inputPrecio.value,
-        thumbnail: inputFoto.value
-    }
+document.querySelector("form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    socket.emit("insertarProducto", {
+        title: document.getElementById("nombre").value,
+        price: document.getElementById("precio").value,
+        thumbnail: document.getElementById("foto").value,
+    });
 });
+
+socket.on("actualizarListado", (listado) => {
+    console.log(listado);
+    actualizarListado(listado);
+});
+
+function actualizarListado(listado) {
+    function generarProductoHtml(producto) {
+        return `
+        <tr>
+            <td>${producto.title}</td>
+            <td>${producto.price}</td>
+            <td><img width="50" src=${producto.thumbnail} alt="not found" /></td>
+        </tr>
+    `;
+    }
+    let productos = "";
+    listado.forEach((p) => {
+        productos += generarProductoHtml(p);
+    });
+    document.querySelector(".table").innerHTML = `
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Foto</th>
+        </tr>
+        ${productos}
+    `;
+}

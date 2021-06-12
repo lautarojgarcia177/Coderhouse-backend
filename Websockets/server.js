@@ -22,8 +22,14 @@ app.set('view engine', 'handlebars');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+// importo la instancia del controlador
+const productos = require('./controlador/productos.js');
 io.on('connection', socket => {
     console.log('a user connected');
+    socket.on('insertarProducto', producto => {
+        productos.agregarProducto(producto);
+        io.emit('actualizarListado', productos.obtenerProductos());
+    });
 });
 
 
