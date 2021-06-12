@@ -11,7 +11,6 @@ document.querySelector("form").addEventListener("submit", (event) => {
 });
 
 socket.on("actualizarListado", (listado) => {
-    console.log(listado);
     actualizarListado(listado);
 });
 

@@ -20,18 +20,8 @@ app.set('view engine', 'handlebars');
 
 // Websocket
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-// importo la instancia del controlador
-const productos = require('./controlador/productos.js');
-io.on('connection', socket => {
-    console.log('a user connected');
-    socket.on('insertarProducto', producto => {
-        productos.agregarProducto(producto);
-        io.emit('actualizarListado', productos.obtenerProductos());
-    });
-});
-
+const io = require('./lib/websockets');
+io.start(server);
 
 // Pongo a escuchar el servidor en el puerto indicado
 const PORT = process.env.PORT || 8080;
