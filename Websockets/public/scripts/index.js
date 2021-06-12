@@ -1,3 +1,6 @@
+// Websocket
+var socket = io();
+
 // Virtual DOM (?
 const inputNombre = document.getElementById('nombre');
 const inputPrecio = document.getElementById('precio');

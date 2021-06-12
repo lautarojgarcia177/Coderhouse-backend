@@ -1,3 +1,5 @@
+const http = require('http');
+
 // Express
 const express = require('express');
 const app = express();
@@ -16,9 +18,18 @@ const exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+// Websocket
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+io.on('connection', socket => {
+    console.log('a user connected');
+});
+
+
 // Pongo a escuchar el servidor en el puerto indicado
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
 
