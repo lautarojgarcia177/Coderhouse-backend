@@ -1,16 +1,18 @@
 const fs = require('fs');
-const { resolve } = require('path');
 
 class Mensajes {
+
     mensajes;
+    filePath = __dirname + '/../archivos/mensajes.json'
 
     constructor() {
-        leerArchivoDeMensajes()
-            .then(mensajes => this.mensajes = JSON.parse(mensajes))
-            .catch(err => {
-                console.error('-------------------------------------------------', err, '-----------------------------')
+        fs.readFile(this.filePath, 'utf8', (err, archivoMensajes) => {
+            if (err) {
                 throw new Error(err)
-            })
+            } else {
+                this.mensajes = JSON.parse(archivoMensajes)
+            }
+        })
     }
 
     obtenerMensajes() {
@@ -19,18 +21,13 @@ class Mensajes {
 
     agregarMensaje(mensaje) {
         this.mensajes.push(mensaje);
+        fs.writeFile(this.filePath, JSON.stringify(this.mensajes), 'utf-8', (err) => {
+            if (err) {
+                throw new Error(err)
+            }
+        })
     }
 
-}
-
-async function leerArchivoDeMensajes() {
-    return fs.readFile(__dirname + '/../archivos/mensajes.json', 'utf8', (err, archivoMensajes) => {
-        if (err) {
-            reject(err)
-        } else {
-            resolve(archivoMensajes)
-        }
-    })
 }
 
 module.exports = new Mensajes()
