@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "serverES6toJS5": "babel src -d lib",
-        "serverTStoJS5": "babel src -d lib"
+        "serverES6toJS5": "babel server.es6.js --out-file server.es5.js",
+        "serverTStoJS5": "tsc server.tsc.ts"
     },
     "author": "",
     "license": "ISC",
