@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 const router = require('./routes/routes.js');
 app.use('/api', router);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 const server = app.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
