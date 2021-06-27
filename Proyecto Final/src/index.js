@@ -1,25 +1,20 @@
-require('dotenv').config()
-import http from 'http';
+// Environment
+import dotenv from 'dotenv'
+dotenv.config();
 
 // Express
 import express from 'express';
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
 
 // Rutas
-const apiRouter = require('./routes/api');
+import { apiRouter } from './routes/api/apiRouter.js';
 app.use('/api', apiRouter);
-const mvcRouter = require('./routes/mvcRoutes.js');
-app.use('', mvcRouter);
-
-// Websocket
-const server = http.createServer(app);
 
 // Pongo a escuchar el servidor en el puerto indicado
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
 
@@ -27,12 +22,10 @@ server.listen(PORT, () => {
 app.on('error', console.warn);
 
 // Middleware para manejo de errores
-app.use(function(err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Hubo un error');
 });
 
 // Variable booleana de administrador para permisos
-
-
-module.exports = server;
+let isAdmin = true;

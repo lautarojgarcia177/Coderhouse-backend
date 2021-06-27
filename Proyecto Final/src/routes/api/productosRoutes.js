@@ -1,8 +1,8 @@
 import express from 'express';
-const routerProductos = express.Router();
+export const routerProductos = express.Router();
 
 // importo la instancia del controlador
-const productos = require('../../controllers/productos');
+import { productosController } from '../../controllers/productosController.js';
 
 // Obtener todos los productos
 routerProductos.get('/listar', (req, res) => {
@@ -31,5 +31,3 @@ routerProductos.delete('/borrar/:id', (req, res) => {
     productos.borrarProducto(req.params.id);
     res.send('Si existia un producto con ese id, fue eliminado');
 });
-
-module.exports = routerProductos;
