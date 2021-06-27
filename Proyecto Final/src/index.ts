@@ -1,3 +1,4 @@
+require('dotenv').config()
 import http from 'http';
 
 // Express
@@ -8,8 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 // Rutas
-const apiRouter = require('./routes/apiRoutes');
-// import apiRouter from './routes/apiRoutes'
+const apiRouter = require('./routes/api');
 app.use('/api', apiRouter);
 const mvcRouter = require('./routes/mvcRoutes.js');
 app.use('', mvcRouter);
@@ -31,5 +31,8 @@ app.use(function(err: Error, req: express.Request, res: express.Response, next: 
     console.error(err.stack);
     res.status(500).send('Hubo un error');
 });
+
+// Variable booleana de administrador para permisos
+
 
 module.exports = server;

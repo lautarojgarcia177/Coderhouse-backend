@@ -1,4 +1,6 @@
-interface Producto {
+const fs: fs= require('fs')
+const path = require('path')
+export interface Producto {
     id: number;
     timestamp: Date;
     nombre: string;
@@ -14,33 +16,17 @@ interface Producto {
 Año, Mes, Dia, Hora, Minuto, Segundo
 Tener cuidado con los meses porque empieza de 0. Junio es 0 y Diciembre es 11 
 */
-
-class Productos {
+class ProductosController {
     private productos: Producto[];
 
     constructor() {
-        this.productos = [
-            {
-                id: 0,
-                timestamp: new Date(2021, 5, 25, 19, 15, 30),
-                nombre: 'Calculadora',
-                descripcion: 'Calculadora marca Casio modelo CK250',
-                codigo: '6v5epngy',
-                foto: 'https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png',
-                precio: 234.56,
-                stock: 2
-            },
-            {
-                id: 1,
-                timestamp: new Date(2021, 5, 25, 19, 15, 30),
-                nombre: 'Globo Terráqueo',
-                descripcion: 'Globo terraqueo marca maped mapamundi',
-                codigo: 'puef3rof',
-                foto: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',
-                precio: 345.67,
-                stock: 4
-            },
-        ];
+        this.productos = fs.readFileSync(path.resolve('products.json'), 'utf8', (err: string, archivoProductos: any) => {
+            if (err) {
+                throw new Error(err)
+            } else {
+                this.productos = JSON.parse(archivoProductos) as Producto[];
+            }
+        })
     }
 
     public obtenerProductos(): Producto[] {
@@ -54,12 +40,15 @@ class Productos {
     public agregarProducto(producto: Producto): void {
         this.productos.length === 0 ? (producto.id = 1) : (producto.id = this.productos.length + 1);
         this.productos.push(producto);
+        this.guardarCambiosEnArchivo();
     }
 
     public actualizarProducto(id: number, producto: Producto): Producto | undefined {
         const productoAActualizar = this.productos.find(_producto => _producto.id == id);
         if (!!productoAActualizar) {
-            return Object.assign(productoAActualizar, producto);
+            const productoActualizado = Object.assign(productoAActualizar, producto);
+            this.guardarCambiosEnArchivo();
+            return productoActualizado;
         } else {
             return undefined;
         }
@@ -67,7 +56,12 @@ class Productos {
 
     public borrarProducto(id: number): void {
         this.productos = this.productos.filter(producto => producto.id != id);
+        this.guardarCambiosEnArchivo();
+    }
+
+    private guardarCambiosEnArchivo(): void {
+        fs.writeFileSync(path.resolve('products.json'), JSON.stringify(this.productos), (err: Error) => { if(err) console.error('Error al escribir el archivo de productos') })
     }
 }
 
-module.exports = new Productos();
+module.exports = new ProductosController();
