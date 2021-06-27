@@ -8,12 +8,10 @@ var http_1 = __importDefault(require("http"));
 // Express
 var express_1 = __importDefault(require("express"));
 var app = express_1.default();
-app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.static(__dirname + '/public'));
 // Rutas
-var apiRouter = require('./routes/apiRoutes');
-// import apiRouter from './routes/apiRoutes'
+var apiRouter = require('./routes/api');
 app.use('/api', apiRouter);
 var mvcRouter = require('./routes/mvcRoutes.js');
 app.use('', mvcRouter);
@@ -31,4 +29,5 @@ app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Hubo un error');
 });
+// Variable booleana de administrador para permisos
 module.exports = server;

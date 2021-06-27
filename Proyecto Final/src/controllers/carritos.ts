@@ -1,8 +1,9 @@
 import { Producto } from './productos';
 
 const productosController = require('./productos');
-const path = require('path');
 const fs = require('fs');
+
+const pathArchivoCarritos = __dirname + '/../persistence/carritos.json';
 
 export interface Carrito {
     id: number;
@@ -14,7 +15,7 @@ class CarritosController {
     private carritos: Carrito[];
 
     constructor() {
-        this.carritos = fs.readFileSync(path.resolve('carritos.json'), 'utf8', (err: string, archivoCarritos: any) => {
+        this.carritos = fs.readFileSync(pathArchivoCarritos, 'utf8', (err: string, archivoCarritos: any) => {
             if (err) {
                 throw new Error(err)
             } else {
@@ -49,7 +50,7 @@ class CarritosController {
     }
 
     private guardarCambiosEnArchivo(): void {
-        fs.writeFileSync(path.resolve('carritos.json'), JSON.stringify(this.carritos), (err: Error) => { if(err) console.error('Error al escribir el archivo de carritos') })
+        fs.writeFileSync(pathArchivoCarritos, JSON.stringify(this.carritos), (err: Error) => { if(err) console.error('Error al escribir el archivo de carritos') })
     }
 }
 

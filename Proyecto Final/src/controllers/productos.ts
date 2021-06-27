@@ -1,5 +1,6 @@
-const fs: fs= require('fs')
-const path = require('path')
+const fs = require('fs')
+
+const pathArchivoProductos = __dirname + '/../persistence/products.json';
 export interface Producto {
     id: number;
     timestamp: Date;
@@ -20,7 +21,7 @@ class ProductosController {
     private productos: Producto[];
 
     constructor() {
-        this.productos = fs.readFileSync(path.resolve('products.json'), 'utf8', (err: string, archivoProductos: any) => {
+        this.productos = fs.readFileSync(pathArchivoProductos, 'utf8', (err: string, archivoProductos: any) => {
             if (err) {
                 throw new Error(err)
             } else {
@@ -60,7 +61,7 @@ class ProductosController {
     }
 
     private guardarCambiosEnArchivo(): void {
-        fs.writeFileSync(path.resolve('products.json'), JSON.stringify(this.productos), (err: Error) => { if(err) console.error('Error al escribir el archivo de productos') })
+        fs.writeFileSync(pathArchivoProductos, JSON.stringify(this.productos), (err: Error) => { if(err) console.error('Error al escribir el archivo de productos') })
     }
 }
 

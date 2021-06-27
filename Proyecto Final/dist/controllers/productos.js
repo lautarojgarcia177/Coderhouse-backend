@@ -1,56 +1,54 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require('fs');
+var pathArchivoProductos = __dirname + '/../persistence/products.json';
 /*
  Las date las trabajo de esta forma:
 Año, Mes, Dia, Hora, Minuto, Segundo
 Tener cuidado con los meses porque empieza de 0. Junio es 0 y Diciembre es 11
 */
-var Productos = /** @class */ (function () {
-    function Productos() {
-        this.productos = [
-            {
-                id: 0,
-                timestamp: new Date(2021, 5, 25, 19, 15, 30),
-                nombre: 'Calculadora',
-                descripcion: 'Calculadora marca Casio modelo CK250',
-                codigo: '6v5epngy',
-                foto: 'https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png',
-                precio: 234.56,
-                stock: 2
-            },
-            {
-                id: 1,
-                timestamp: new Date(2021, 5, 25, 19, 15, 30),
-                nombre: 'Globo Terráqueo',
-                descripcion: 'Globo terraqueo marca maped mapamundi',
-                codigo: 'puef3rof',
-                foto: 'https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png',
-                precio: 345.67,
-                stock: 4
-            },
-        ];
+var ProductosController = /** @class */ (function () {
+    function ProductosController() {
+        var _this = this;
+        this.productos = fs.readFileSync(pathArchivoProductos, 'utf8', function (err, archivoProductos) {
+            if (err) {
+                throw new Error(err);
+            }
+            else {
+                _this.productos = JSON.parse(archivoProductos);
+            }
+        });
     }
-    Productos.prototype.obtenerProductos = function () {
+    ProductosController.prototype.obtenerProductos = function () {
         return this.productos;
     };
-    Productos.prototype.obtenerProducto = function (id) {
+    ProductosController.prototype.obtenerProducto = function (id) {
         return this.productos.find(function (producto) { return producto.id == id; });
     };
-    Productos.prototype.agregarProducto = function (producto) {
+    ProductosController.prototype.agregarProducto = function (producto) {
         this.productos.length === 0 ? (producto.id = 1) : (producto.id = this.productos.length + 1);
         this.productos.push(producto);
+        this.guardarCambiosEnArchivo();
     };
-    Productos.prototype.actualizarProducto = function (id, producto) {
+    ProductosController.prototype.actualizarProducto = function (id, producto) {
         var productoAActualizar = this.productos.find(function (_producto) { return _producto.id == id; });
         if (!!productoAActualizar) {
-            return Object.assign(productoAActualizar, producto);
+            var productoActualizado = Object.assign(productoAActualizar, producto);
+            this.guardarCambiosEnArchivo();
+            return productoActualizado;
         }
         else {
             return undefined;
         }
     };
-    Productos.prototype.borrarProducto = function (id) {
+    ProductosController.prototype.borrarProducto = function (id) {
         this.productos = this.productos.filter(function (producto) { return producto.id != id; });
+        this.guardarCambiosEnArchivo();
     };
-    return Productos;
+    ProductosController.prototype.guardarCambiosEnArchivo = function () {
+        fs.writeFileSync(pathArchivoProductos, JSON.stringify(this.productos), function (err) { if (err)
+            console.error('Error al escribir el archivo de productos'); });
+    };
+    return ProductosController;
 }());
-module.exports = new Productos();
+module.exports = new ProductosController();
