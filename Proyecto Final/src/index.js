@@ -1,31 +1,28 @@
 // Environment
 import dotenv from 'dotenv'
-dotenv.config();
+dotenv.config()
 
 // Express
-import express from 'express';
-const app = express();
-
-app.use(express.urlencoded({ extended: true }));
+import express from 'express'
+const app = express()
 
 // Rutas
-import { apiRouter } from './routes/api/apiRouter.js';
-app.use('/api', apiRouter);
+import { apiRouter } from './rutas/apiRouter.js'
+app.use('/api', apiRouter)
 
-// Pongo a escuchar el servidor en el puerto indicado
-const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => {
-    console.log(`servidor escuchando en http://localhost:${PORT}`);
-});
+const port = process.env.PORT || 8080
+const server = app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
 
 // en caso de error, avisar
-app.on('error', console.warn);
+app.on('error', console.warn)
 
 // Middleware para manejo de errores
 app.use(function(err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send('Hubo un error');
-});
+    console.error(err.stack)
+    res.status(500).send('Hubo un error')
+})
 
 // Variable booleana de administrador para permisos
-let isAdmin = true;
+export let esAdmin = true
