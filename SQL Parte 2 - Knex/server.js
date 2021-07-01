@@ -24,7 +24,7 @@ const io = require('./lib/websockets');
 io.setup(server);
 
 // Pongo a escuchar el servidor en el puerto indicado
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
@@ -33,7 +33,7 @@ server.listen(PORT, () => {
 app.on('error', console.warn);
 
 // Middleware para manejo de errores
-app.use((err: Error, req: any, res: any, next: any) => {
+app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Hubo un error');
 });

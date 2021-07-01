@@ -1,4 +1,4 @@
-const { fs } = require('fs');
+const fs = require('fs');
 
 class Mensajes {
 
@@ -6,7 +6,7 @@ class Mensajes {
     filePath = __dirname + '/../archivos/mensajes.json'
 
     constructor() {
-        this.fs.readFile(this.filePath, 'utf8', (err, archivoMensajes) => {
+        fs.readFile(this.filePath, 'utf8', (err, archivoMensajes) => {
             if (err) {
                 throw new Error(err)
             } else {
