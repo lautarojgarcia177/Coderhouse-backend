@@ -1,5 +1,4 @@
 socket.on('messages', function(data) {
-    console.log(data);
     render(data);
 });
 
@@ -12,6 +11,13 @@ function render(data) {
                 <i style="color:green;">${elem.text}</i>
             </div>
         `)
+        // return (`
+        //     <div>
+        //         <b style="color:blue;">${elem.email}</b> 
+        //         [<span style="color:brown;">${elem.fecha}</span>] : 
+        //         <i style="color:green;">${elem.mensaje}</i>
+        //     </div>
+        // `)
     }).join(" ");
     document.getElementById('messages').innerHTML = html;
 }

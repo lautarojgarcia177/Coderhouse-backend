@@ -1,27 +1,37 @@
 const { Server } = require("socket.io");
 
 // Importo las instancias de los controladores
-const productos = require('../controladores/productos.js');
-const mensajes = require('../controladores/mensajes.js');
+const productosController = require('../controladores/productos.js');
+const mensajesController = require('../controladores/mensajes.js');
 
 // Exporto el websocket
 module.exports.setup = function(server) {
     const io = new Server(server);
     io.on('connection', socket => {
-
         /* Le envio los productos actualizados al cliente */
-        socket.emit('actualizarListado', productos.obtenerProductos());
+        productosController.obtenerProductos().then(productos => {
+            socket.emit('actualizarListado', productos);
+        }).catch(console.error)
         /* Le envio los mensajes actualizados al cliente */
-        socket.emit('messages', mensajes.obtenerMensajes());
+        mensajesController.obtenerMensajes().then(mensajes => {
+            console.log(mensajes);
+            socket.emit('messages', mensajes);
+        }).catch(console.error)
 
         /* Eventos */
         socket.on('insertarProducto', producto => {
-            productos.agregarProducto(producto);
-            io.emit('actualizarListado', productos.obtenerProductos());
+            productosController.agregarProducto(producto).then(() => {
+                productosController.obtenerProductos().then(productos => {
+                    io.emit('actualizarListado', productos);
+                })
+            }).catch(console.error);
         });
         socket.on('new-message', function(message) {
-            mensajes.agregarMensaje(message);
-            io.sockets.emit('messages', mensajes.obtenerMensajes());
+            mensajesController.agregarMensaje(message).then(() => {
+                mensajesController.obtenerMensajes().then(mensajes => {
+                    io.sockets.emit('messages', mensajes);
+                })
+            });
         });
     });
 }

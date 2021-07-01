@@ -1,33 +1,18 @@
-const fs = require('fs');
+// Base de datos
+const { db_mensajes } = require('../database/knex');
 
-class Mensajes {
-
-    mensajes;
-    filePath = __dirname + '/../archivos/mensajes.json'
-
-    constructor() {
-        fs.readFile(this.filePath, 'utf8', (err, archivoMensajes) => {
-            if (err) {
-                throw new Error(err)
-            } else {
-                this.mensajes = JSON.parse(archivoMensajes)
-            }
-        })
-    }
-
-    obtenerMensajes() {
-        return this.mensajes;
-    }
-
-    agregarMensaje(mensaje) {
-        this.mensajes.push(mensaje);
-        fs.writeFile(this.filePath, JSON.stringify(this.mensajes), 'utf-8', (err) => {
-            if (err) {
-                throw new Error(err)
-            }
-        })
-    }
-
+async function obtenerMensajes() {
+    return db_mensajes('mensajes').select('*');
 }
 
-module.exports = new Mensajes()
+async function agregarMensaje(mensaje) {
+    return obtenerMensajes().then(mensajes => {
+        mensajes.length === 0 ? (mensaje.id = 1) : (mensaje.id = mensajes.length + 1);
+        return db_mensajes('mensajes').insert(mensaje)
+    });
+}
+
+module.exports = {
+    obtenerMensajes,
+    agregarMensaje,
+};

@@ -10,13 +10,6 @@ app.use(express.static(__dirname + '/public'));
 // Rutas
 const apiRouter = require('./routes/apiRoutes.js');
 app.use('/api', apiRouter);
-const mvcRouter = require('./routes/mvcRoutes.js');
-app.use('', mvcRouter);
-
-// Motor de templates
-const exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
 
 // Websocket
 const server = http.createServer(app);
@@ -29,13 +22,12 @@ server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
 
-//productos
-const controladorProductos = require('./controladores/productos');
-controladorProductos.agregarProducto({
-    title: 'Tiza',
-    price: 140,
-    thumbnail: 'https://tse2.mm.bing.net/th/id/OIP.Yq3VSiVMSu7Q1WgEOCxaHAHaHa?pid=ImgDet&rs=1'
-}).then(() => {});
+// Migrar las BD
+const migracion = require('./database/migracion');
+// migracion.crearTablaProductos();
+// migracion.crearTablaMensajes();
+migracion.popularTablaMensajes();
+// migracion.eliminarTablaMensajes();
 
 // en caso de error, avisar
 app.on('error', console.warn);

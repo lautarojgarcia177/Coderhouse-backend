@@ -1,6 +1,6 @@
 let socket = io.connect(); 
 
-socket.on('productos', function(productos) { 
+socket.on('actualizarListado', function(productos) { 
     //console.log(productos);
     document.getElementById('datos').innerHTML = data2TableJS(productos)
     /* data2TableHBS(productos, html => {
@@ -8,12 +8,11 @@ socket.on('productos', function(productos) {
     }) */
 });
 
-const form = document.querySelector('form')
+const form = document.querySelector('form');
 form.addEventListener('submit', e => {
     e.preventDefault()
 
     const data = {title: form[0].value, price: form[1].value, thumbnail: form[2].value}
-    //console.log(data)
 
     fetch('/api/productos/guardar', {
         headers: {
@@ -22,7 +21,6 @@ form.addEventListener('submit', e => {
         method: 'POST',
         body: JSON.stringify(data)
     })
-    .then(respuesta => respuesta.json())
     .then( productos => {
         //console.log(productos)
         //document.getElementById('datos').innerHTML = data2Table(productos)

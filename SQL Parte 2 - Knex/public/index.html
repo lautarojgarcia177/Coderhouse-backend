@@ -47,15 +47,14 @@
         <div class="jumbotron" id="centro-mensajes">
             <h1>Centro de Mensajes</h1>
             <br>
-            <div class="d-flex flex-wrap">
-                <input type="text" id="username" class="form-control w-25 mr-2" placeholder="Ingresá tu email">
-                <form class="form-inline w-50" onsubmit="return addMessage(this)" autocomplete="off">
-                    <input disabled type="text" id="texto" class="form-control mr-2" placeholder="Ingresá un mensaje...">
-                    <input disabled id="enviar" class="btn btn-primary" type="submit" value="Enviar">
-                </form>
-            </div>
+            <input type="text" id="username" class="form-control w-50 my-2 mr-2" placeholder="Ingresá tu email">
             <hr>
             <div id="messages"></div>
+        
+            <form class="form-inline mt-3" onsubmit="return addMessage(this)" autocomplete="off">
+                <input disabled type="text" id="texto" class="form-control my-2 mr-2" placeholder="Ingresá un mensaje...">
+                <input disabled id="enviar" class="btn btn-primary my-2" type="submit" value="Enviar!">
+            </form>
         </div>
 
     </div>

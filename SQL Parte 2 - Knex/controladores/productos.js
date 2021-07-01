@@ -1,8 +1,8 @@
 // Base de datos
-const db = require('../database/knex');
+const { db_productos } = require('../database/knex');
 
 async function obtenerProductos() {
-    return db('productos').select('*');
+    return db_productos('productos').select('*');
 }
 
 async function obtenerProducto(id) {
@@ -14,28 +14,24 @@ async function obtenerProducto(id) {
 async function agregarProducto(producto) {
     obtenerProductos().then(productos => {
         productos.length === 0 ? (producto.id = 1) : (producto.id = productos.length + 1);
-        db('productos').insert(producto).then(() => {
+        db_productos('productos').insert(producto).then(() => {
             return Promise.resolve('Producto agregado con éxito');
         });
     });
 }
 
-//     actualizarProducto(id, producto) {
-//         const productoAActualizar = this.productos.find(_producto => _producto.id == id);
-//         if (!!productoAActualizar) {
-//             return Object.assign(productoAActualizar, producto);
-//         } else {
-//             return undefined;
-//         }
-//     }
+async function actualizarProducto(id, producto) {
+    return db_productos('productos').where({id: id}).update(producto);
+}
 
-//     borrarProducto(id) {
-//         this.productos = this.productos.filter(producto => producto.id != id);
-//     }
-// }
+async function borrarProducto(id) {
+    return db_productos('productos').where({id: id}).del();
+}
 
 module.exports = {
     obtenerProductos,
     obtenerProducto,
     agregarProducto,
+    actualizarProducto,
+    borrarProducto,
 };

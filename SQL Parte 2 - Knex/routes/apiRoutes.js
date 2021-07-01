@@ -2,33 +2,39 @@ const express = require('express');
 const router = express.Router();
 
 // importo la instancia del controlador
-const productos = require('../controladores/productos');
+const productosController = require('../controladores/productos');
 
 // Obtener todos los productos
 router.get('/productos/listar', (req, res) => {
-    res.json(productos.obtenerProductos());
+    productosController.obtenerProductos().then(productos => {
+        console.log(productos);
+        res.json(productos);
+    })
 });
 
 // Obtener un producto
 router.get('/productos/listar/:id', (req, res) => {
-    res.json(productos.obtenerProducto(req.params.id));
+    res.json(productosController.obtenerProducto(req.params.id));
 });
 
 // Insertar un producto
 router.post('/productos/guardar', (req, res) => {
-    productos.agregarProducto(req.body);
-    res.send('Producto guardado con éxito');
+    productosController.agregarProducto(req.body)
+        .then(() => {
+            res.send('Producto guardado con éxito');
+        })
+        .catch(err => console.error(err));
 });
 
 // Actualizar un producto
 router.put('/productos/actualizar/:id', (req, res) => {
-    const productoActualizado = productos.actualizarProducto(req.params.id, req.body);
+    const productoActualizado = productosController.actualizarProducto(req.params.id, req.body);
     !!productoActualizado ? res.send('Producto actualizado') : res.send('No se encontro el producto con el id especificado');
 });
 
 // Borrar un producto
 router.delete('/productos/borrar/:id', (req, res) => {
-    productos.borrarProducto(req.params.id);
+    productosController.borrarProducto(req.params.id);
     res.send('Si existia un producto con ese id, fue eliminado');
 });
 
