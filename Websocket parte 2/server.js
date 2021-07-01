@@ -24,7 +24,7 @@ const io = require('./lib/websockets');
 io.setup(server);
 
 // Pongo a escuchar el servidor en el puerto indicado
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });

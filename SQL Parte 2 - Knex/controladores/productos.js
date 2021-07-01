@@ -1,53 +1,41 @@
-class Productos {
-    productos;
+// Base de datos
+const db = require('../database/knex');
 
-    constructor() {
-        this.productos = [{
-                title: "Escuadra",
-                price: 123.45,
-                thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-256.png",
-                id: 1,
-            },
-            {
-                title: "Calculadora",
-                price: 234.56,
-                thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png",
-                id: 2,
-            },
-            {
-                title: "Globo Terráqueo",
-                price: 345.67,
-                thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
-                id: 3,
-            },
-        ];
-    }
-
-    obtenerProductos() {
-        return this.productos;
-    }
-
-    obtenerProducto(id) {
-        return this.productos.find((producto) => producto.id == id);
-    }
-
-    agregarProducto(producto) {
-        this.productos.length === 0 ? (producto.id = 1) : (producto.id = this.productos.length + 1);
-        this.productos.push(producto);
-    }
-
-    actualizarProducto(id, producto) {
-        const productoAActualizar = this.productos.find(_producto => _producto.id == id);
-        if (!!productoAActualizar) {
-            return Object.assign(productoAActualizar, producto);
-        } else {
-            return undefined;
-        }
-    }
-
-    borrarProducto(id) {
-        this.productos = this.productos.filter(producto => producto.id != id);
-    }
+async function obtenerProductos() {
+    return db('productos').select('*');
 }
 
-module.exports = new Productos();
+async function obtenerProducto(id) {
+    return obtenerProductos().then(productos => {
+        return productos.find((producto) => producto.id == id);
+    });
+}
+
+async function agregarProducto(producto) {
+    obtenerProductos().then(productos => {
+        productos.length === 0 ? (producto.id = 1) : (producto.id = productos.length + 1);
+        db('productos').insert(producto).then(() => {
+            return Promise.resolve('Producto agregado con éxito');
+        });
+    });
+}
+
+//     actualizarProducto(id, producto) {
+//         const productoAActualizar = this.productos.find(_producto => _producto.id == id);
+//         if (!!productoAActualizar) {
+//             return Object.assign(productoAActualizar, producto);
+//         } else {
+//             return undefined;
+//         }
+//     }
+
+//     borrarProducto(id) {
+//         this.productos = this.productos.filter(producto => producto.id != id);
+//     }
+// }
+
+module.exports = {
+    obtenerProductos,
+    obtenerProducto,
+    agregarProducto,
+};

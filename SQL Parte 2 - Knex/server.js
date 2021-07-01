@@ -29,6 +29,14 @@ server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
 
+//productos
+const controladorProductos = require('./controladores/productos');
+controladorProductos.agregarProducto({
+    title: 'Tiza',
+    price: 140,
+    thumbnail: 'https://tse2.mm.bing.net/th/id/OIP.Yq3VSiVMSu7Q1WgEOCxaHAHaHa?pid=ImgDet&rs=1'
+}).then(() => {});
+
 // en caso de error, avisar
 app.on('error', console.warn);
 
