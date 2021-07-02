@@ -1,0 +1,3 @@
+use prueba
+db.items.insertOne({nombre: 'Fideos', categoria: 'Harina', stock: 20})
+db.items.insertMany([{nombre: 'Leche', categoria: 'Lácteos', stock: 30}, {nombre: 'Crema', categoria: 'Lácteos', stock: 15}])
