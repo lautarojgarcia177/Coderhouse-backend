@@ -21,7 +21,7 @@ class MongoCRUD {
 
     /**
      * Find entity by ID.
-     * @param {Number} id
+     * @param {String} id
      */
     async findById(id) {
         return this.model.findById(id);

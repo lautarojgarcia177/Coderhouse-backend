@@ -1,11 +1,11 @@
 const Mensaje = require('../modelos/mensaje');
 const MongoCRUD = require('../repositorio/crud');
 
-class MensajeController extends MongoCRUD {
+class MensajesController extends MongoCRUD {
 
     constructor() {
         super(Mensaje);
     }
 }
 
-module.exports = new MensajeController();
+module.exports = new MensajesController();

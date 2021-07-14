@@ -9,26 +9,26 @@ module.exports.setup = function(server) {
     const io = new Server(server);
     io.on('connection', socket => {
         /* Le envio los productos actualizados al cliente */
-        productosController.obtenerProductos().then(productos => {
+        productosController.findAll().then(productos => {
             socket.emit('actualizarListado', productos);
         }).catch(console.error)
         /* Le envio los mensajes actualizados al cliente */
-        mensajesController.obtenerMensajes().then(mensajes => {
+        mensajesController.findAll().then(mensajes => {
             console.log(mensajes);
             socket.emit('messages', mensajes);
         }).catch(console.error)
 
         /* Eventos */
         socket.on('insertarProducto', producto => {
-            productosController.agregarProducto(producto).then(() => {
-                productosController.obtenerProductos().then(productos => {
+            productosController.create(producto).then(() => {
+                productosController.findAll().then(productos => {
                     io.emit('actualizarListado', productos);
                 })
             }).catch(console.error);
         });
         socket.on('new-message', function(message) {
-            mensajesController.agregarMensaje(message).then(() => {
-                mensajesController.obtenerMensajes().then(mensajes => {
+            mensajesController.create(message).then(() => {
+                mensajesController.findAll().then(mensajes => {
                     io.sockets.emit('messages', mensajes);
                 })
             });
