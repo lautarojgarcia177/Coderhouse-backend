@@ -13,7 +13,7 @@ class Crud {
 
     /**
      * Create a new entity.
-     * @param {Object} userData
+     * @param {Object} Data
      */
     async create(data) {
         return this.model.create(data);

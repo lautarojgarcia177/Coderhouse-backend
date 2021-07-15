@@ -2,8 +2,8 @@ import fs from "fs"
 import * as controladorProductos from './productosControlador.js'
 
 const pathArchivoCarritos = new URL(
-  "../persistencia/carritos.json",
-  import.meta.url
+    "../db/file-system/carritos.json",
+    import.meta.url
 );
 
 function obtenerCarrito(id_carrito, callback) {
@@ -78,11 +78,11 @@ export function borrarProducto(id_carrito, id_producto, callback) {
 }
 
 function obtenerCarritos(callback) {
-  return fs.readFile(pathArchivoCarritos, "utf8", (err, productos) => {
-    err ? callback(err) : callback(null, JSON.parse(productos));
-  });
+    return fs.readFile(pathArchivoCarritos, "utf8", (err, productos) => {
+        err ? callback(err) : callback(null, JSON.parse(productos));
+    });
 }
 
 function guardarCambiosEnArchivo(carritos, callback) {
-  return fs.writeFile(pathArchivoCarritos, JSON.stringify(carritos), callback);
+    return fs.writeFile(pathArchivoCarritos, JSON.stringify(carritos), callback);
 }

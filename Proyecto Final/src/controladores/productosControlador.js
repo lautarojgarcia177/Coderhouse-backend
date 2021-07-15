@@ -1,7 +1,8 @@
 import fs from 'fs';
 
-const pathArchivoProductos = new URL('../persistencia/productos.json', import.meta.url);
-    
+const pathArchivoProductos = new URL('../db/file-system/productos.json',
+    import.meta.url);
+
 export function obtenerProductos(callback) {
     return fs.readFile(pathArchivoProductos, 'utf8', (err, productos) => {
         err ? callback(err) : callback(null, JSON.parse(productos))
@@ -59,5 +60,5 @@ function guardarCambiosEnArchivo(productos, callback) {
         pathArchivoProductos,
         JSON.stringify(productos),
         callback
-        )
+    )
 }
