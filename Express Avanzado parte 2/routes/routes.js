@@ -6,8 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 // instancio el controlador
-const Productos = require('../api/productos');
-const productos = new Productos();
+const productos = require('../api/productos');
 
 // Obtener todos los productos
 router.get('/productos/listar', (req, res) => {
