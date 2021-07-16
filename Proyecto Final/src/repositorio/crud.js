@@ -1,55 +1,19 @@
-class Crud {
+export default class Crud {
 
-    constructor(model) {
-        this.model = model;
+    constructor(modelo) {
+        this.modelo = modelo
     }
 
-    /**
-     * @return entity model.
-     */
-    getModel() {
-        return this.model;
-    }
+    obtenerTodos(callback) {}
 
-    /**
-     * Create a new entity.
-     * @param {Object} Data
-     */
-    async create(data) {
-        return this.model.create(data);
-    }
+    obtenerUno(id, callback) {}
 
-    /**
-     * Find entity by ID.
-     * @param {String} id
-     */
-    async findById(id) {
-        return this.model.findById(id);
-    }
+    agregarUno(item, callback) {}
 
-    /**
-     * Find all records
-     */
-    findAll() {
-        return this.model.find({});
-    }
+    actualizarItem(id, item, callback) {}
 
-    /**
-     * Update a entity looking for it by id
-     * @param {String} id mongodb id
-     * @param {Object} toUpdate data to update
-     */
-    update(id, toUpdate) {
-        return this.model.findByIdAndUpdate(id, toUpdate);
-    }
+    borrarItem(id, callback) {}
 
-    /**
-     * Delete a entity looking for it by id
-     * @param {String} id mongodb id
-     */
-    remove(id) {
-        return this.model.findByIdAndDelete(id);
-    }
+    guardarCambiosEnArchivo(items, callback) {}
+
 }
-
-module.exports = Crud;
