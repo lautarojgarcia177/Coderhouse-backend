@@ -4,33 +4,33 @@ import dotenv from 'dotenv'
 dotenv.config()
 class _Fabrica {
 
-    dao
+    daoProductos
+    daoCarritos
 
     constructor() {
-        // Para asegurarse de que cree una sola instancia
-        this.yaCreoElDAO = false
+        // Para asegurarse de que cree una sola instancia de cada DAO
+        this.yaCreoLosDAO
     }
 
-    crearDAO(modelo) {
+    crearDAOs(modelo) {
         switch (process.env.PERSISTENCIA) {
             case "FS":
-                if (!this.yaCreoElDAO) {
-                    this.dao = new FileSystem(modelo)
-                    this.yaCreoElDAO = true
+                if (!this.yaCreoLosDAO) {
+                    this.daoProductos = new FileSystem('producto')
+                    this.daoCarritos = new FileSystem('carrito')
+                    this.yaCreoLosDAO = true
                 }
-                return this.dao
             case "MONGO":
                 if (!this.yaCreoElDAO) {
-                    this.dao = new MongoDB(modelo)
-                    this.yaCreoElDAO = true
+                    this.daoProductos = new MongoDB('producto')
+                    this.daoCarritos = new MongoDB('carrito')
+                    this.yaCreoLosDAO = true
                 }
-                return this.dao
-            default:
-                if (!this.yaCreoElDAO) {
-                    this.dao = new FileSystem(modelo)
-                    this.yaCreoElDAO = true
-                }
-                return this.dao
+        }
+        if (modelo == 'producto') {
+            return this.daoProductos
+        } else if (modelo == 'carrito') {
+            return this.daoCarritos
         }
     }
 

@@ -4,7 +4,7 @@ import { Fabrica } from '../fabrica/index.js'
 class _CarritosControlador {
     constructor() {
         this.persistencia = Fabrica
-        this.DAOCarritos = this.persistencia.crearDAO('carrito')
+        this.DAOCarritos = this.persistencia.crearDAOs('carrito')
         this.controladorProductos = ProductosControlador
     }
 
