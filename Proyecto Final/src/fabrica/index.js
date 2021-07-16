@@ -8,29 +8,17 @@ class _Fabrica {
     daoCarritos
 
     constructor() {
-        // Para asegurarse de que cree una sola instancia de cada DAO
-        this.yaCreoLosDAO
+        this.crearDAOs()
     }
 
-    crearDAOs(modelo) {
+    crearDAOs() {
         switch (process.env.PERSISTENCIA) {
             case "FS":
-                if (!this.yaCreoLosDAO) {
-                    this.daoProductos = new FileSystem('producto')
-                    this.daoCarritos = new FileSystem('carrito')
-                    this.yaCreoLosDAO = true
-                }
+                this.daoProductos = new FileSystem('producto')
+                this.daoCarritos = new FileSystem('carrito')
             case "MONGO":
-                if (!this.yaCreoElDAO) {
-                    this.daoProductos = new MongoDB('producto')
-                    this.daoCarritos = new MongoDB('carrito')
-                    this.yaCreoLosDAO = true
-                }
-        }
-        if (modelo == 'producto') {
-            return this.daoProductos
-        } else if (modelo == 'carrito') {
-            return this.daoCarritos
+                this.daoProductos = new MongoDB('producto')
+                this.daoCarritos = new MongoDB('carrito')
         }
     }
 

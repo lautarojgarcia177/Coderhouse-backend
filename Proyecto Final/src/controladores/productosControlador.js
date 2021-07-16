@@ -3,7 +3,7 @@ class _ProductosControlador {
 
     constructor() {
         this.persistencia = Fabrica
-        this.DAOProductos = this.persistencia.crearDAOs('producto')
+        this.DAOProductos = this.persistencia.daoProductos
     }
 
     obtenerProductos(callback) {

@@ -41,22 +41,22 @@ export class MongoDB extends Crud {
         // Migracion
         // await this.modelo.create(productos)
         // this.modelo.find({}).then(() => {}).catch(err => console.log('hubo error :(:(:('))
-        await this.modelo.create(carritos)
-        this.modelo.find({}).then(() => {}).catch(err => console.log('hubo error :(:(:('))
+        // await this.modelo.create(carritos)
+        // this.modelo.find({}).then(() => {}).catch(err => console.log('hubo error :(:(:('))
         return;
     }
 
     obtenerTodos(callback) {
         this.modelo
             .find({})
-            .then((productos) => callback(null, productos))
+            .then((items) => callback(null, items))
             .catch((err) => callback(err, null));
     }
 
     obtenerUno(id, callback) {
         this.modelo
             .findById(id)
-            .then((producto) => callback(null, producto))
+            .then((item) => callback(null, item))
             .catch((err) => callback(err, null));
     }
 

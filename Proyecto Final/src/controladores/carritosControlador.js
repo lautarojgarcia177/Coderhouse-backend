@@ -4,7 +4,7 @@ import { Fabrica } from '../fabrica/index.js'
 class _CarritosControlador {
     constructor() {
         this.persistencia = Fabrica
-        this.DAOCarritos = this.persistencia.crearDAOs('carrito')
+        this.DAOCarritos = this.persistencia.daoCarritos
         this.controladorProductos = ProductosControlador
     }
 
@@ -37,16 +37,13 @@ class _CarritosControlador {
             if (err) {
                 callback(err)
             } else {
-                this.DAOCarritos.obtenerTodos((err, carritos) => {
+                this.DAOCarritos.obtenerUno(id_carrito, (err, carrito) => {
                     if (err) {
                         callback(err)
                     } else {
-                        const carrito = carritos.find(carrito => carrito.id == id_carrito)
                         if (!!producto) {
                             carrito.productos.push(producto);
-                            this.guardarCambiosEnArchivo(carritos, err => {
-                                err ? callback(err) : callback(null, carrito)
-                            })
+                            this.DAOCarritos.actualizarItem(carrito._id, carrito, callback)
                         } else {
                             callback(null, carrito)
                         }
@@ -61,12 +58,10 @@ class _CarritosControlador {
             if (err) {
                 callback(err)
             } else {
-                const carrito = carritos.find(carrito => carrito.id == id_carrito)
-                const productoAEliminar = carrito.productos.find(p => p.id == id_producto)
+                const carrito = carritos.find(carrito => carrito._id == id_carrito)
+                const productoAEliminar = carrito.productos.find(p => p._id == id_producto)
                 carrito.productos.splice(carrito.productos.indexOf(productoAEliminar), 1)
-                this.guardarCambiosEnArchivo(carritos, err => {
-                    err ? callback(err) : callback(null, carrito)
-                })
+                this.DAOCarritos.actualizarItem(carrito._id, carrito, callback)
             }
         })
     }
