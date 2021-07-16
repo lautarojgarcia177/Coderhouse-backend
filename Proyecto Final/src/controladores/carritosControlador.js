@@ -1,23 +1,19 @@
 import fs from "fs"
 import * as controladorProductos from './productosControlador.js'
 
-const pathArchivoCarritos = new URL(
-    "../db/file-system/carritos.json",
-    import.meta.url
-);
+export default class CarritosControlador {
+    constructor() {
+        this.persistencia = new Fabrica()
+        this.DAOCarritos = this.persistencia.crearDAO('carrito')
+    }
+}
 
 function obtenerCarrito(id_carrito, callback) {
-    obtenerCarritos((err, carritos) => {
-        if (err) {
-            callback(err)
-        } else {
-            const carrito = carritos.find(carrito => carrito.id == id_carrito)
-            callback(null, carrito)
-        }
-    })
+    return this.DAOCarritos.obtenerUno(id_carrito, callback)
 }
 
 export function obtenerProductosDeCarrito(id_carrito, callback) {
+    return this.DAOCarritos.
     obtenerCarrito(id_carrito, (err, carrito) => {
         if (err) {
             callback(err)
