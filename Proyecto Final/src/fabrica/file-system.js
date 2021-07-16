@@ -2,11 +2,11 @@ import fs from "fs";
 import Crud from '../repositorio/crud.js';
 
 const pathArchivoItems = new URL(
-    "../db/file-system/productos.json",
+    "../db/json/productos.json",
     import.meta.url
 );
 const pathArchivoCarritos = new URL(
-    "../db/file-system/carritos.json",
+    "../db/json/carritos.json",
     import.meta.url
 );
 

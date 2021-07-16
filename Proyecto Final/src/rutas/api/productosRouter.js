@@ -1,9 +1,9 @@
 import express from 'express';
-import ProductosControlador from '../../controladores/productosControlador.js'
+import { ProductosControlador } from '../../controladores/productosControlador.js'
 import { esAdmin } from '../../index.js'
 
 export const routerProductos = express.Router()
-const controladorProductos = new ProductosControlador()
+const controladorProductos = ProductosControlador
 
 // Obtener todos los productos
 routerProductos.get('/listar', (req, res) => {

@@ -1,8 +1,8 @@
 import express from 'express';
-import CarritosControlador from '../../controladores/carritosControlador.js'
+import { CarritosControlador } from '../../controladores/carritosControlador.js'
 
 export const routerCarritos = express.Router()
-const controladorCarritos = new CarritosControlador()
+const controladorCarritos = CarritosControlador
 
 // Obtener un carrito
 routerCarritos.get('/listar/:id', (req, res) => {

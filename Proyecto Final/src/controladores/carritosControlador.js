@@ -1,11 +1,11 @@
-import ProductosControlador from './productosControlador.js'
-import Fabrica from '../fabrica/index.js'
+import { ProductosControlador } from './productosControlador.js'
+import { Fabrica } from '../fabrica/index.js'
 
-export default class CarritosControlador {
+class _CarritosControlador {
     constructor() {
-        this.persistencia = new Fabrica()
+        this.persistencia = Fabrica
         this.DAOCarritos = this.persistencia.crearDAO('carrito')
-        this.controladorProductos = new ProductosControlador()
+        this.controladorProductos = ProductosControlador
     }
 
     obtenerCarrito(id_carrito, callback) {
@@ -80,3 +80,5 @@ export default class CarritosControlador {
     }
 
 }
+
+export const CarritosControlador = new _CarritosControlador()

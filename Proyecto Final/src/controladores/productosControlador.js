@@ -1,8 +1,8 @@
-import Fabrica from '../fabrica/index.js'
-export default class ProductosControlador {
+import { Fabrica } from '../fabrica/index.js'
+class _ProductosControlador {
 
     constructor() {
-        this.persistencia = new Fabrica()
+        this.persistencia = Fabrica
         this.DAOProductos = this.persistencia.crearDAO('producto')
     }
 
@@ -27,3 +27,5 @@ export default class ProductosControlador {
     }
 
 }
+
+export const ProductosControlador = new _ProductosControlador()
