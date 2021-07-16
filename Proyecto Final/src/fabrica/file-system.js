@@ -40,7 +40,7 @@ export class FileSystem extends Crud {
 
     agregarUno(item, callback) {
         let _item = item;
-        this.obtenerItems((err, items) => {
+        this.obtenerTodos((err, items) => {
             if (err) {
                 callback(err);
             }
@@ -55,7 +55,7 @@ export class FileSystem extends Crud {
     }
 
     actualizarItem(id, item, callback) {
-        this.obtenerItems((err, items) => {
+        this.obtenerTodos((err, items) => {
             if (err) {
                 callback(err);
             } else {
@@ -71,7 +71,7 @@ export class FileSystem extends Crud {
     }
 
     borrarItem(id, callback) {
-        this.obtenerItems((err, items) => {
+        this.obtenerTodos((err, items) => {
             if (err) {
                 callback(err);
             } else {

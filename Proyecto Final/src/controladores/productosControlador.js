@@ -1,4 +1,4 @@
-import { Fabrica } from '../fabrica/index.js'
+import Fabrica from '../fabrica/index.js'
 export default class ProductosControlador {
 
     constructor() {

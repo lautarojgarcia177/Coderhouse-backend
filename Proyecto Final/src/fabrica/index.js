@@ -1,6 +1,6 @@
 import { FileSystem } from "./file-system.js";
 
-export class Fabrica {
+export default class Fabrica {
 
     constructor() {}
 
