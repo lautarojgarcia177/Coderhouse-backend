@@ -1,4 +1,3 @@
-import fs from "fs";
 import Crud from "../repositorio/crud.js";
 import { Producto } from "../modelos/Producto.js";
 import { Carrito } from '../modelos/Carrito.js';
@@ -70,14 +69,14 @@ export class MongoDB extends Crud {
     actualizarItem(id, item, callback) {
         this.modelo
             .findByIdAndUpdate(id, item)
-            .then((producto) => callback(null, producto))
+            .then((item) => callback(null, item))
             .catch((err) => callback(err, null));
     }
 
     borrarItem(id, callback) {
         this.modelo
             .findByIdAndDelete(id)
-            .then((producto) => callback(null, producto))
+            .then((item) => callback(null, item))
             .catch((err) => callback(err, null));
     }
 }

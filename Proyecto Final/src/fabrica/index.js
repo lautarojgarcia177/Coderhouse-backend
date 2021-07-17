@@ -1,5 +1,7 @@
 import { FileSystem } from "./file-system.js"
 import { MongoDB } from "./mongodb.js"
+import { SqlLite } from "./sqllite.js"
+
 import dotenv from 'dotenv'
 dotenv.config()
 class _Fabrica {
@@ -11,6 +13,7 @@ class _Fabrica {
         this.crearDAOs()
     }
 
+    // Para cambiar el tipo de persistencia, setear la variable en .env, las posibilidades son FS, MONGO o SQL
     crearDAOs() {
         switch (process.env.PERSISTENCIA) {
             case "FS":
@@ -19,6 +22,9 @@ class _Fabrica {
             case "MONGO":
                 this.daoProductos = new MongoDB('producto')
                 this.daoCarritos = new MongoDB('carrito')
+            case "SQL":
+                this.daoProductos = new SqlLite('producto')
+                this.daoCarritos = new SqlLite('carrito')
         }
     }
 
