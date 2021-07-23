@@ -4,10 +4,14 @@ const router = express.Router();
 // importo la instancia del controlador
 const productosController = require("../controladores/productos");
 
+// Mock de productos
+router.get("/productos/vista-test", (req, res) => {
+  res.json(productosController.mockDeProductos(req.params.cant));
+});
+
 // Obtener todos los productos
 router.get("/productos/listar", (req, res) => {
   productosController.findAll().then((productos) => {
-    console.log(productos);
     res.json(productos);
   });
 });
