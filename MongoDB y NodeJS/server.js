@@ -19,6 +19,10 @@ const server = http.createServer(app);
 const io = require('./lib/websockets');
 io.setup(server);
 
+// Migracion
+const migracion = require('./database/migracion.js');
+migracion.cargarProductos().then(x => console.log('productos creados', x))
+
 // Pongo a escuchar el servidor en el puerto indicado
 const PORT = require('./config/config.json').PORT || 8080;
 server.listen(PORT, () => {
