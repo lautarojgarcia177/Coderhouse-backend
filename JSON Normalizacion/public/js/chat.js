@@ -3,21 +3,22 @@ socket.on('messages', function(data) {
 });
 
 function render(data) {
-    var html = data.map(function(elem, index) {
+    const longitudMensajesNormalizado = JSON.stringify(data).length;
+    const autorNormalizerSchema = new normalizr.schema.Entity('autores')
+    const mensajeNormalizerSchema = new normalizr.schema.Entity('mensaje',{autor: [autorNormalizerSchema]} )
+    const mensajesNormalizerSchema = [mensajeNormalizerSchema];
+    data = normalizr.denormalize(data.result, mensajesNormalizerSchema, data.entities);
+    const longitudMensajesDesnormalizado = JSON.stringify(data).length;
+    console.log(data);
+    const porcentajeCompresion = 100 * (1 - (longitudMensajesDesnormalizado / longitudMensajesNormalizado));
+    var html = 'Porcentaje de compresion normalizado: ' + porcentajeCompresion + '%' + data.map(function(elem, index) {
         return (`
             <div>
-                <b style="color:blue;">${elem.author}</b> 
-                [<span style="color:brown;">${elem.fyh}</span>] : 
+                <b style="color:blue;">${elem.author.alias}</b> 
+                [<span style="color:brown;">${elem.author.email}</span>] : 
                 <i style="color:green;">${elem.text}</i>
             </div>
         `)
-        // return (`
-        //     <div>
-        //         <b style="color:blue;">${elem.email}</b> 
-        //         [<span style="color:brown;">${elem.fecha}</span>] : 
-        //         <i style="color:green;">${elem.mensaje}</i>
-        //     </div>
-        // `)
     }).join(" ");
     document.getElementById('messages').innerHTML = html;
 }

@@ -26,7 +26,7 @@ server.listen(PORT, () => {
 const migracion = require('./database/migracion');
 // migracion.crearTablaProductos();
 // migracion.crearTablaMensajes();
-migracion.popularTablaMensajes();
+// migracion.popularTablaMensajes();
 // migracion.eliminarTablaMensajes();
 
 // en caso de error, avisar
