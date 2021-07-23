@@ -1,5 +1,5 @@
 // Base de datos
-
+const db_mensajes = require('../persistencia/repositorios/mensajes-repositorio');
 
 // Normalizacion
 const { normalize, schema } = require('normalizr');
@@ -8,7 +8,7 @@ const mensajeNormalizerSchema = new schema.Entity('mensaje',{autor: [autorNormal
 const mensajesNormalizerSchema = [mensajeNormalizerSchema];
 
 async function obtenerMensajes() {
-    return db_mensajes('mensajes').select('*').then(data => {
+    return db_mensajes.findAll().then(data => {
         data = data.map(mensaje => {
             mensaje.author = JSON.parse(mensaje.author);
             return mensaje;
@@ -18,10 +18,7 @@ async function obtenerMensajes() {
 }
 
 async function agregarMensaje(mensaje) {
-    return obtenerMensajes().then(mensajes => {
-        mensajes.length === 0 ? (mensaje.id = 1) : (mensaje.id = mensajes.length + 1);
-        return db_mensajes('mensajes').insert(mensaje)
-    });
+    return db_mensajes.create(mensaje);
 }
 
 module.exports = {

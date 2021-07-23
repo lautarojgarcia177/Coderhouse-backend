@@ -16,6 +16,9 @@ app.use('/api', apiRouter);
 const mvcRouter = require('./routes/mvcRoutes.js');
 app.use('/mvc', mvcRouter);
 
+// Mongo
+require('./persistencia/conexion');
+
 // Websocket
 const server = http.createServer(app);
 const io = require('./lib/websockets');
@@ -29,7 +32,7 @@ server.listen(PORT, () => {
 
 // Migracion
 const migracion = require('./persistencia/migracion.js');
-migracion.cargarProductos().then(x => console.log('productos creados', x))
+// migracion.cargarProductos().then(x => console.log('productos creados', x))
 
 // en caso de error, avisar
 app.on('error', console.warn);

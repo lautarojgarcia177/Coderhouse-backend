@@ -1,13 +1,14 @@
 // Migrar productos
-const Producto = require('../modelos/producto');
-const productos = require('./productos.json');
+const Producto = require('./modelos/producto');
+const productos = require('./db/productos.json');
+
 async function cargarProductos() {
     await Producto.create(productos);
 }
 
 //Migrar mensajes
-const Mensaje = require('../modelos/mensaje');
-const mensajes = require('./productos.json');
+const Mensaje = require('./modelos/mensaje');
+const mensajes = require('./db/mensajes.json');
 async function cargarMensajes() {
     await Mensaje.create(mensajes);
 }

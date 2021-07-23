@@ -1,5 +1,5 @@
 const Producto = require('../modelos/producto');
-const MongoCRUD = require('../crud');
+const MongoCRUD = require('./crud');
 
 class ProductosController extends MongoCRUD {
 

@@ -1,8 +1,8 @@
 const { Server } = require("socket.io");
 
 // Importo las instancias de los controladores
-const productosController = require('../controladores/productos.js');
-const mensajesController = require('../controladores/mensajes.js');
+const productosController = require('../controladores/productos-controlador.js');
+const mensajesController = require('../controladores/mensajes-controlador.js');
 
 // Exporto el websocket
 module.exports.setup = function(server) {

@@ -1,5 +1,5 @@
 const Mensaje = require('../modelos/mensaje');
-const MongoCRUD = require('../crud');
+const MongoCRUD = require('./crud');
 
 class MensajesController extends MongoCRUD {
 

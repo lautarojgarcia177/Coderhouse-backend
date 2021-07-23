@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // importo la instancia del controlador
-const productosController = require('../controladores/productos');
+const productosController = require('../controladores/productos-controlador');
 
 // Obtener todos los productos
 router.get('/productos/listar', (req, res) => {
