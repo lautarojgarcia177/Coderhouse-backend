@@ -7,14 +7,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
+// Security https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
+// const helmet = require('helmet');
+// app.use(helmet());
+
 // Motor de templates
 app.set('view engine', 'pug');
+
+// Session
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+app.use(session({
+    secret: 'secreto',
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Rutas
 const apiRouter = require('./routes/apiRoutes.js');
 app.use('/api', apiRouter);
 const mvcRouter = require('./routes/mvcRoutes.js');
 app.use('/mvc', mvcRouter);
+
 
 // Mongo
 require('./persistencia/conexion');
