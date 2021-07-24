@@ -8,4 +8,11 @@ html(lang='es')
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous")
     link(href="/estilos/estilos.css", rel="stylesheet")
   body
+    if username
+      div.jumbotron.d-flex.justify-content-between
+        h3 
+          span.mr-2(id="span__saludo") Bienvenido 
+          span(id="span__username") #{username}
+        btn.btn.btn-warning(id="btn__desloguear") Desloguear
     block content
+    script(src="/js/main.js")

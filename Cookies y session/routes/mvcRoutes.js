@@ -4,19 +4,26 @@ const router = express.Router();
 // importo la instancia del controlador
 const productosControlador = require("../controladores/productos-controlador");
 
+router.use(function(req, res, next) {
+  if (req.url != '/login' && !req.session?.username) {
+    return res.redirect('/mvc/login');
+  }
+  next();
+});
+
 router.get("/login", (req, res) => {
-  console.log(req.session?.username);
-  res.render("login", {
-    title: "Login",
-  });
+    return res.render("login", {
+      title: "Login"
+    });
 });
 
 router.get("/", (req, res) => {
   productosControlador.obtenerProductos().then((productos) => {
-    res.render("principal", {
+    return res.render("principal", {
       title: "Vista de Productos",
       hayProductos: true,
       productos: productos,
+      username: req.session?.username
     });
   });
 });

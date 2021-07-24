@@ -21,8 +21,20 @@ app.use(cookieParser());
 app.use(session({
     secret: 'secreto',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60000,
+        expires: 60000
+    }
 }));
+app.use(function(req, res, next) {
+    // refrescar la duracion de la cookie en cada request
+    const minute = 60000;
+    req.session.cookie.expires = new Date(Date.now() + minute);
+    req.session.cookie.maxAge = minute;
+    next();
+});
+
 
 // Rutas
 const apiRouter = require('./routes/apiRoutes.js');
@@ -55,7 +67,7 @@ app.on('error', console.warn);
 // Middleware para manejo de errores
 app.use(function(err, req, res, next) {
     console.error(err.stack);
-    res.status(500).send('Hubo un error');
+    return res.status(500).send('Hubo un error');
 });
 
 module.exports = server;
