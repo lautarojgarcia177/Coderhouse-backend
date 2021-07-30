@@ -1,0 +1,11 @@
+extends blocks/layout.pug
+
+block content
+  h1 Login
+  br
+  form(id="form__login")
+    label(for="username" class="form-label") Username
+    input(type="text" id="input__username" class="form-control mb-3")
+    button(type="submit" class="btn btn-primary") Enviar
+
+  script(src="/js/login.js")
