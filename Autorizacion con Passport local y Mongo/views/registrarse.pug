@@ -1,0 +1,15 @@
+extends blocks/layout.pug
+
+block content
+  h1 Registro de Usuario
+  br
+  form(id="form__registrarse")
+    label(for="username" class="form-label") Username
+    input(type="text" id="input__username" class="form-control mb-3")
+    label(for="password" class="form-label") Password
+    input(type="password" id="input__password" class="form-control mb-3")
+    button(type="submit" class="btn btn-primary") Registrar
+
+  a(href="login") Ir a Login
+
+  script(src="/js/registrarse.js")
