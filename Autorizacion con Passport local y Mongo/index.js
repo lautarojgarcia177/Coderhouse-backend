@@ -1,45 +1,42 @@
 const http = require('http');
+const config = require('./config/config.json');
+const express = require('express');
+
+// Mongo
+require('./persistencia/conexion');
 
 // Express
-const express = require('express');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
-// Security https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
-// const helmet = require('helmet');
-// app.use(helmet());
-
-// Motor de templates
+app.use(require('cookie-parser')());
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    cookie: {
+      httpOnly: false,
+      secure: false,
+      maxAge: config.TIEMPO_EXPIRACION
+    },
+    rolling: true,
+    resave: true,
+    saveUninitialized: false
+  }));
+  // Initialize Passport and restore authentication state, if any, from the
+  // session.
+  const passport = require('passport');
+  // Passport
+  require('./lib/auth')();
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  // Motor de templates
 app.set('view engine', 'pug');
 
-// Autenticacion y Session
-const passport = require('passport');
-require('./autenticacion/autenticacion')();
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const MongoStore = require('connect-mongo');
-app.use(cookieParser());
-app.use(session({
-    secret: 'not_a_cat',
-    resave: false,
-    saveUninitialized: false,
-    // cookie: {
-    //     maxAge: 60000,
-    //     expires: 60000
-    // },
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/sesiones' }),
-}));
-app.use(function(req, res, next) {
-    // refrescar la duracion de la cookie en cada request
-    const minute = 60000;
-    req.session.cookie.expires = new Date(Date.now() + minute);
-    req.session.cookie.maxAge = minute;
-    next();
-});
-app.use(passport.initialize());
-app.use(passport.authenticate('session'));
+// Websocket
+const server = http.createServer(app);
+const io = require('./lib/websockets');
+io.setup(server);
 
 // Rutas
 const authRouter = require('./routes/authRoutes.js');
@@ -53,17 +50,8 @@ app.get('/*', function(req, res) {
     return res.redirect('/mvc')
 });
 
-
-// Mongo
-require('./persistencia/conexion');
-
-// Websocket
-const server = http.createServer(app);
-const io = require('./lib/websockets');
-io.setup(server);
-
 // Pongo a escuchar el servidor en el puerto indicado
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || config.PORT || 8081;
 server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });

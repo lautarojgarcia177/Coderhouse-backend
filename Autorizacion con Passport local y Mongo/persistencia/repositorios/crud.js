@@ -29,14 +29,6 @@ class MongoCRUD {
     }
 
     /**
-     * Find entity by object.
-     * @param {Object} userObject
-     */
-     async findOne(object) {
-        return this.model.findOne(object);
-    }
-
-    /**
      * Find all records
      */
     findAll() {

@@ -1,71 +1,73 @@
-var express = require("express");
-var passport = require("passport");
-var router = express.Router();
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const db_usuarios = require("../persistencia/repositorios/usuarios-repositorio");
+const express = require("express");
+const router = express.Router();
+const passport = require('passport');
 
-router.get("/login", function (req, res, next) {
-  return res.render("login");
-});
+//  LOGIN
+router.get('/login', getLogin);
+router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), postLogin);
+router.get('/faillogin', getFaillogin);
 
-router.post("/login", (req, res) => {
-  passport.authenticate("local", { failureRedirect: "/login" }),
-    function (req, res) {
-      res.redirect;
-    };
+//  SIGNUP
+router.get('/signup', getSignup);
+router.post('/signup', passport.authenticate('signup', { failureRedirect: '/failsignup' }), postSignup);
+router.get('/failsignup', getFailsignup);
 
-  if (!req.session?.username && !!req.body?.username) {
-    const { username } = req.body;
-    req.session.username = username;
-    return res.send("loginCorrecto");
-  } else if (req.session.username) {
-    return res.send("loginCorrecto");
+function getLogin(req, res) {
+  if (req.isAuthenticated()) {
+
+    var user = req.user;
+    console.log('user logueado');
+    res.render('principal', {
+      username: user.username,
+    });
   }
-});
+  else {
+    res.render('login');
+  }
+}
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/mvc",
-    failureRedirect: "/auth/login",
-    failureMessage: true,
-  })
-);
+function getSignup(req, res) {
+    res.render('registrarse');
+}
 
-router.get("/logout", function (req, res, next) {
-  req.logout();
-  return res.redirect("/");
-});
 
-router.get("/registrarse", function (req, res, next) {
-  return res.render("registrarse");
-});
+function postLogin (req, res) {
+  var user = req.user;
+  //console.log(user);
 
-router.post("/registrarse", function (req, res, next) {
-  // Hashear la password
-  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-    // Guardar el usuario nuevo en la base de datos
-    if (err) {
-      return next(err);
-    }
-    const newUser = {
-      username: req.body.username,
-      password: hash,
-    };
-    db_usuarios
-      .create(newUser)
-      .then((newUser) => {
-        // Redireccionar
-        return res.redirect("/mvc");
-      })
-      .catch((err) => next);
+  //grabo en user fecha y hora logueo
+  res.render('principal');
+}
+
+function postSignup (req, res) {
+  var user = req.user;
+  //console.log(user);
+
+  //grabo en user fecha y hora logueo
+  res.render('principal');
+}
+
+function getFaillogin (req, res) {
+  console.log('error en login');
+  res.render('login-error', {
   });
-});
+}
 
-// app.delete('/logout', (req, res) => {
-//   req.session.destroy();
-//   res.send('logout exitoso');
-// });
+function getFailsignup (req, res) {
+  console.log('error en signup');
+  res.render('signup-error', {
+  });
+}
+
+
+
+function getLogout (req, res) {
+  req.logout();
+  res.render('login');
+}
+
+function failRoute(req, res){
+  res.status(404).render('routing-error', {});
+}
 
 module.exports = router;

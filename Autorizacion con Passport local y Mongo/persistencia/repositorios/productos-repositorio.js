@@ -1,11 +1,11 @@
 const Producto = require('../modelos/producto');
 const MongoCRUD = require('./crud');
 
-class ProductosRepositorio extends MongoCRUD {
+class ProductosController extends MongoCRUD {
 
     constructor() {
         super(Producto);
     }
 }
 
-module.exports = new ProductosRepositorio();
+module.exports = new ProductosController();

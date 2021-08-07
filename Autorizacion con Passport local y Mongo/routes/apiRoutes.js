@@ -4,13 +4,6 @@ const router = express.Router();
 // importo la instancia del controlador
 const productosController = require('../controladores/productos-controlador');
 
-router.get('/desloguear', (req, res) => {
-    if(req.session?.username ) {
-        req.session.username = undefined;
-    }
-    return res.send('deslogueado');
-});
-
 // Obtener todos los productos
 router.get('/productos/listar', (req, res) => {
     productosController.obtenerProductos().then(productos => {
