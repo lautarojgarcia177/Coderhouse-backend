@@ -21,7 +21,7 @@ function checkAuthentication(req, res, next) {
     //req.isAuthenticated() will return true if user is logged in
     next();
   } else {
-    res.redirect("/auth/login");
+    res.status(401).send('debe autenticarse primero');
   }
 }
 

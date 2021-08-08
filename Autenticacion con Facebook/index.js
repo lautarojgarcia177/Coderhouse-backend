@@ -1,10 +1,8 @@
 const http = require('http');
-const config = require('./config/config.json');
 const express = require('express');
 
-// Secrets
- require('dotenv').config();
-
+// Environment
+require('dotenv').config();
 
 // Mongo
 require('./persistencia/conexion');
@@ -14,28 +12,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-app.use(require('cookie-parser')());
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    cookie: {
-      httpOnly: false,
-      secure: false,
-      maxAge: config.TIEMPO_EXPIRACION
-    },
-    rolling: true,
-    resave: true,
-    saveUninitialized: false
-  }));
-  // Initialize Passport and restore authentication state, if any, from the
-  // session.
-  const passport = require('passport');
-  // Passport
-  require('./lib/auth')();
-  app.use(passport.initialize());
-  app.use(passport.session());
+
+// Login con Facebook
+require('./lib/auth')();
+// inicializamos passport
+const passport = require("passport");
+app.use(passport.initialize());
+app.use(passport.session());
+
   
-  // Motor de templates
+// Motor de templates
 app.set('view engine', 'pug');
+
 
 // Websocket
 const server = http.createServer(app);
@@ -55,7 +43,7 @@ app.get('/*', function(req, res) {
 });
 
 // Pongo a escuchar el servidor en el puerto indicado
-const PORT = process.env.PORT || config.PORT || 8081;
+const PORT = process.env.PORT || 8081;
 server.listen(PORT, () => {
     console.log(`servidor escuchando en http://localhost:${PORT}`);
 });
