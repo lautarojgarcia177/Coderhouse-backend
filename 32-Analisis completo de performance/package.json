@@ -7,7 +7,8 @@
     "nodemon-start": "nodemon ./bin/www",
     "forever-start": "forever start -w server.js",
     "start-pm2-fork": "pm2 start ./bin/www -w",
-    "start-pm2-cluster": "pm2 start ./bin/www --watch -i max"
+    "start-pm2-cluster": "pm2 start ./bin/www --watch -i max",
+    "profile-node": "node --prof ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
