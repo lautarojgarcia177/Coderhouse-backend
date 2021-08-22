@@ -14,7 +14,7 @@ router.get('/info', (req, res, next) => {
 // Sin fork
 router.get('/randoms', (req,res,next) => {
   const cantidadDeNumeros = !!req.query.cant ? req.query.cant : 100000000;
-  const randoms = require('./lib/randoms.js').generarObjetoRandoms(cantidadDeNumeros);
+  const randoms = require('../lib/randoms.js').generarObjetoRandoms(cantidadDeNumeros);
   res.json(randoms);
 });
 

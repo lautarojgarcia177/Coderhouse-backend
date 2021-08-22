@@ -8,9 +8,15 @@
     "forever-start": "forever start -w server.js",
     "start-pm2-fork": "pm2 start ./bin/www -w",
     "start-pm2-cluster": "pm2 start ./bin/www --watch -i max",
-    "profile-node": "node --prof ./bin/www"
+    "profile": "node --prof ./bin/www",
+    "profile-process-resultado-info": "node --prof-process info-primero-v8.log > prof-resultado_info.txt",
+    "profile-process-resultado-randoms": "node --prof-process randoms-v8.log > prof-resultado_randoms.txt",
+    "node-inspect": "node --inspect ./bin/www",
+    "0x-start": "0x ./bin/www",
+    "test": "node benchmark.js"
   },
   "dependencies": {
+    "autocannon": "^7.4.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
