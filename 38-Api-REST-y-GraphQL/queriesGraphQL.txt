@@ -1,0 +1,28 @@
+#Obtener un producto
+{
+    product(id: 1) {
+        title,
+        price,
+        thumbnail
+    }
+}
+
+# Obtener todos los productos
+{
+    products {
+        id,
+        title,
+        thumbnail,
+        price
+    }
+}
+
+# Mutacion, insertar un nuevo producto
+mutation {
+    insertProduct(id: 4, title: "Tiza", price: 40, thumbnail: "https://www.martinezescalada.com.ar/1870-large_default/tiza-blanca-caja-x-144-unid.jpg") {
+        id,
+        title,
+        price,
+        thumbnail
+    }
+}
