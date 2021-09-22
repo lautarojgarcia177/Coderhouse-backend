@@ -1,7 +1,10 @@
-import fs from "fs";
-const pathArchivoItems = new URL("../db/json/productos.json", import.meta.url);
+var fs = require('fs');
+// import faker from 'faker';
+const path = require('path');
+const pathArchivoItems = path.join(__dirname,'../db/json/productos.json'); 
+// console.log('dirname', __dirname);
 
-export class ControladorProductos {
+class ControladorProductos {
   constructor() {
     this.pathArchivoDB = pathArchivoItems;
   }
@@ -69,4 +72,9 @@ export class ControladorProductos {
   guardarCambiosEnArchivo(items, callback) {
     return fs.writeFile(this.pathArchivoDB, JSON.stringify(items), callback);
   }
+
+}
+
+module.exports = {
+  ControladorProductos
 }

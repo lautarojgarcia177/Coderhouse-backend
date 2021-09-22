@@ -1,4 +1,4 @@
-import axios from "axios";
+var axios = require('axios');
 
 const URL = "http://localhost:8080";
 

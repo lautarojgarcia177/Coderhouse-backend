@@ -1,8 +1,12 @@
-import express from 'express';
-export const apiRouter = express.Router();
+var express = require('express');
+const apiRouter = express.Router();
 
-import { routerProductos } from './api/productosRouter.js';
+var routerProductos = require('./api/productosRouter.js').routerProductos;
 
 apiRouter.use(express.urlencoded({ extended: true }))
 apiRouter.use(express.json());
 apiRouter.use('/productos', routerProductos);
+
+module.exports = {
+    apiRouter
+}

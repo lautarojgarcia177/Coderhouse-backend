@@ -1,7 +1,6 @@
-import express from "express";
-import { ControladorProductos } from "../../controladores/productos.js";
-
-export const routerProductos = express.Router();
+var express = require('express');
+var ControladorProductos = require("../../controladores/productos.js").ControladorProductos;
+const routerProductos = express.Router();
 
 var controladorProductos = new ControladorProductos();
 
@@ -58,3 +57,7 @@ routerProductos.delete("/borrar/:id", (req, res) => {
     res.send("Si existia un producto con ese id, fue eliminado");
   });
 });
+
+module.exports = {
+  routerProductos
+}

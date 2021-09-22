@@ -1,12 +1,12 @@
 // Environment
-import dotenv from 'dotenv'
+var dotenv = require('dotenv');
 dotenv.config()
 
 // Express
-import express from 'express'
+var express = require('express');
 const app = express()
 // Rutas
-import { apiRouter } from './rutas/apiRouter.js'
+var apiRouter = require('./rutas/apiRouter').apiRouter;
 app.use('/api', apiRouter)
 
 const port = process.env.PORT || 8080
