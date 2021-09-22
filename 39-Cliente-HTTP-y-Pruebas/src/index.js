@@ -5,7 +5,6 @@ dotenv.config()
 // Express
 import express from 'express'
 const app = express()
-
 // Rutas
 import { apiRouter } from './rutas/apiRouter.js'
 app.use('/api', apiRouter)
@@ -23,6 +22,3 @@ app.use(function(err, req, res, next) {
     console.error(err.stack)
     res.status(500).send('Hubo un error')
 })
-
-// Variable booleana de administrador para permisos
-export let esAdmin = true
