@@ -1,7 +1,2 @@
-![image](https://user-images.githubusercontent.com/39509244/134401964-e499489a-f612-42db-816f-f11cd06e2c4f.png)
 
-Los test estan en el directorio src/pruebas
-
-# Reporte:
-
-![image](https://user-images.githubusercontent.com/39509244/134401939-33d6bccc-0ee4-4167-a185-28187493a212.png)
+![image](https://user-images.githubusercontent.com/39509244/134452131-1184601a-4dcc-47fa-87a0-628a483e6f4a.png)
