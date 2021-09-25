@@ -1,0 +1,23 @@
+{
+  "name": "dao-y-dto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint src/",
+    "lint:fix": "./node_modules/.bin/eslint src/ --fix"
+  },
+  "keywords": [],
+  "author": "Lautaro Garcia",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "minimist": "^1.2.5",
+    "mongoose": "^5.13.2"
+  },
+  "devDependencies": {}
+}
