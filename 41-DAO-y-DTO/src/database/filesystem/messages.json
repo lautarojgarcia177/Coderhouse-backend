@@ -1,10 +1,12 @@
 [
     {
+        "id": 1,
         "text": "Hola",
         "user": "Honguex",
         "timestamp": "1519211809934"
     },
     {
+        "id": 2,
         "text": "Como va?",
         "user": "Smideth",
         "timestamp": "1519211810362"

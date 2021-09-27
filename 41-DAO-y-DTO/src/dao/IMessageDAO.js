@@ -4,11 +4,11 @@ class IMessageDAO {
 
     constructor() { }
 
-    async create(data) {
+    async create(argv) {
         throw new DaoException('falta implementar create()');
     }
 
-    async findById(id) {
+    async findById(argv) {
         throw new DaoException('falta implementar findById()');
     }
 
@@ -16,11 +16,11 @@ class IMessageDAO {
         throw new DaoException('falta implementar findAll()');
     }
 
-    async update(id, toUpdate) {
+    async update(argv) {
         throw new DaoException('falta implementar update()');
     }
 
-    async remove(id) {
+    async remove(argv) {
         throw new DaoException('falta implementar remove()');
     }
 }

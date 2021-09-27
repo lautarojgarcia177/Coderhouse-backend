@@ -11,7 +11,7 @@ module.exports = function(collection, persistenceType) {
                     case "fs":
                         return new MessageFsDAO();
                     case "mongo":
-                        require("./database/connection");
+                        require("../database/connection");
                         return new MessageMongoDAO();
                 }
                 break;
@@ -20,7 +20,7 @@ module.exports = function(collection, persistenceType) {
                     case "fs":
                         return new UserFsDAO();
                     case "mongo":
-                        require("./database/connection");
+                        require("../database/connection");
                         return new UserMongoDAO();
                 }
                 break;

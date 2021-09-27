@@ -8,11 +8,14 @@ class MessageMongoDAO extends IMessageDAO {
         super();
     }
 
-    async create(data) {
-        return await Message.create(data);
+    async create(argv) {
+        const { id, text, user, timestamp } = argv;
+        const newMessage = { id, text, user, timestamp };
+        return await Message.create(newMessage);
     }
 
-    async findById(id) {
+    async findById(argv) {
+        const { id } = argv;
         let message = await Message.findById(id);
         return new MessageDTO(message);
     }
@@ -22,11 +25,13 @@ class MessageMongoDAO extends IMessageDAO {
         return messages.map(m => new MessageDTO(m));
     }
 
-    async update(id, toUpdate) {
+    async update(argv) {
+        const { id, toUpdate } = argv;
         return await Message.findByIdAndUpdate(id, toUpdate);
     }
 
-    async remove(id) {
+    async remove(argv) {
+        const { id } = argv;
         return await Message.findByIdAndDelete(id);
     }
 }

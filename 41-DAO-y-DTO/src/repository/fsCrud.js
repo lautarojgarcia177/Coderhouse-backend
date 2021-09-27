@@ -1,27 +1,20 @@
 const ICRUD = require("./ICRUD");
 const fs = require('fs');
+const CrudException=require("../errors/CrudException");
 
 class FSCrud extends ICRUD {
 
     constructor(filePath) {
-        console.log(filePath);
         super(filePath);
     }
 
-    async create(item) {
-        let _item = item;
-        return this.findAll()
-            .then((items) => {
-                items.length === 0
-                    ? (_item.id = 1)
-                    : (_item.id = items.length + 1);
-                items.push(_item);
-                Promise.resolve(items);
-            })
-            .then((items) => this.saveChanges(items));
+    async create(argv) {
+        throw new CrudException('falta implementar create');
     }
 
-    async findById(id) {
+    async findById(argv) {
+        const { id } = argv;
+        console.log('been here', id);
         return this.findAll().then((items) =>
             items.find((item) => item.id == id)
         );
@@ -29,11 +22,12 @@ class FSCrud extends ICRUD {
 
     async findAll() {
         return fs.promises
-            .readFile(this.pathArchivoDB, "utf8")
+            .readFile(this.filePath, "utf8")
             .then((items) => JSON.parse(items));
     }
 
-    async update(id, toUpdate) {
+    async update(argv) {
+        const { id, toUpdate } = argv;
         return this.findAll()
             .then((items) => {
                 Object.assign(
@@ -45,7 +39,8 @@ class FSCrud extends ICRUD {
             .then((items) => this.saveChanges(items));
     }
 
-    async remove(id) {
+    async remove(argv) {
+        const { id } = argv;
         return this.findAll().then(items => this.saveChanges(items.filter(item => item.id != id)));
     }
 
