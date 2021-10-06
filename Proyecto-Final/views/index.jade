@@ -2,10 +2,13 @@ extends layout
 
 block content
   .container
-    if (!user)
-      a(href="/login") Login
-      br
-      a(href="/register") Register
-    if (user)
-      p You are currently logged in as #{user.username}
-      a(href="/logout") Logout
+    if(user)
+      ul(class="nav nav-tabs")
+        li(role="presentation" class="active")
+          a(href="/") Home
+        li(role="presentation")
+          a(href="profile") Profile
+        li(role="presentation")
+          a(href="products") Products
+        li(role="presentation")
+          a(href="checkout") checkout

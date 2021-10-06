@@ -10,7 +10,14 @@ html
       br
       h4.error-msg= error
       br
-
+    .container  
+      if (!user)
+        a(href="/login") Login
+        br
+        a(href="/register") Register
+      if (user)
+        p You are currently logged in as #{user.username}
+        a(href="/logout") Logout
     block content
 
   script(src='http://code.jquery.com/jquery.js')

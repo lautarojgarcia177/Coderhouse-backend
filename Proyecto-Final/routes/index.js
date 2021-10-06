@@ -13,6 +13,14 @@ router.get("/register", (req, res) => {
   res.render("register", {});
 });
 
+router.get('/profile', (req, res, next) => {
+  res.render("profile", { user: req.user });
+});
+
+router.get('/products', (req, res, next) => {
+  res.render("products", { user: req.user });
+});
+
 router.post("/register", upload.single("photo"), (req, res, next) => {
   User.register(
     new User({
