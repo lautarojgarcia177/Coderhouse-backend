@@ -14,4 +14,19 @@ block content
                 a(href="checkout") checkout
         br
         h2 List of products
+        br
+        table(class="table")
+            tr
+                td Title
+                td Price
+                td Stock
+                td
+            each product in products
+                tr
+                    td= product.title
+                    td= product.price
+                    td= product.stock
+                    td
+                        button(onclick='addToCart("#{product._id}")') add to cart
         
+    script(src="scripts/products_page.js")

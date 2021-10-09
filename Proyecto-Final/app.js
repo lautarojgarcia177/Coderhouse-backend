@@ -1,11 +1,9 @@
 // dependencies
 var express = require("express");
-var helmet = require("helmet");
-var compression = require("compression");
 var dotenv = require("dotenv");
 var logger = require("morgan");
 var path = require("path");
-var favicon = require("serve-favicon");
+// var favicon = require("serve-favicon");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
@@ -26,10 +24,12 @@ var productsRouter = require("./routes/products");
 var app = express();
 
 app.use(logger("dev"));
-app.use(compression());
-app.use(helmet());
+// app.use(compression());
+// app.use(helmet());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -51,7 +51,7 @@ app.use("/", cartsRouter);
 app.use("/", productsRouter);
 
 // passport config
-var User = require("./models/user");
+const User = require("./models/user");
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

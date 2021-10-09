@@ -34,6 +34,10 @@ class MongoCRUD {
         return this.model.find({});
     }
 
+    findOne(conditions) {
+        return this.model.findOne(conditions);
+    }
+
     /**
      * Update a entity looking for it by id
      * @param {String} id mongodb id

@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+const Product = require('../models/product').model;
 const MongoCRUD = require('../repository/crud');
 
 class ProductsController extends MongoCRUD {
