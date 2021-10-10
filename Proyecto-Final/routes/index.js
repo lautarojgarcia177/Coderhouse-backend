@@ -26,8 +26,16 @@ router.get('/products', (req, res, next) => {
     });
 });
 
+router.get('/checkout', async (req, res, next) => {
+    const cart = await cartsController.findOne({user: req.user.id});
+    for (let cp of cart.products) {
+        const product = await productsController.findById(cp.product.toString());
+        cp.title = product.title;
+    }
+    res.render("checkout", {user: req.user, cart });
+});
+
 router.post("/register", upload.single("photo"), (req, res, next) => {
-    console.log(req.body);
     User.register(
         new User({
             username: req.body.username,

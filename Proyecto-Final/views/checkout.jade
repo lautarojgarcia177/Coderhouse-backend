@@ -14,4 +14,14 @@ block content
                 a(href="checkout" class="active") checkout
         br
         h2 Checkout
+        table(class="table")
+            tr
+                td
+                    strong Title
+                td 
+                    strong Amount
+            each product in cart.products
+                tr
+                    td= product.title
+                    td= product.amount
         

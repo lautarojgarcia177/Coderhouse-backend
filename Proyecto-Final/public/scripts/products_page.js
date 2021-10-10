@@ -1,7 +1,8 @@
 function addToCart(productId) {
 
-    fetch('/carts/addProduct', {
-        method: 'POST',
-        body: JSON.stringify({ productId: productId })
-    }).then(x => console.log(x));
+    fetch('/carts/addProduct/' + productId, {
+        method: 'PATCH'
+    }).then(x => {
+        window.location.reload();
+    });
 }

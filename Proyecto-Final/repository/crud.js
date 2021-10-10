@@ -39,7 +39,7 @@ class MongoCRUD {
     }
 
     /**
-     * Update a entity looking for it by id
+     * Update an entity looking for it by id
      * @param {String} id mongodb id
      * @param {Object} toUpdate data to update
      */
