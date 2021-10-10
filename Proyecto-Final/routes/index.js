@@ -111,6 +111,13 @@ router.get("/logout", (req, res, next) => {
 
 router.get('/confirmPurchase', async (req, res, next) => {
     const cart = await cartsController.findOne({user: req.user.id});
+    await emailSender.sendMail({
+        from: '"Fred Foo 👻" <foo@example.com>',
+        to: req.user.email,
+        subject: "Your purchase", // Subject line
+        text: "Thanks for your purchase,", // plain text body
+        html: "<b>Your purchase</b>" + cart.products, // html body
+    });
     cart.products = [];
     await cartsController.update(cart._id.toString(), cart);
     res.redirect('/purchaseConfirmed');
