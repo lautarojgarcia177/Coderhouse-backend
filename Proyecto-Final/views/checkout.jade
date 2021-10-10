@@ -24,4 +24,7 @@ block content
                 tr
                     td= product.title
                     td= product.amount
-        
+
+        button.btn.btn-default(type='button' onclick="confirmPurchase()") Purchase
+
+    script(src="scripts/checkout_page.js")

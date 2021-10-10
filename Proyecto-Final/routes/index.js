@@ -8,6 +8,7 @@ const productsController = require('../api/products');
 const cartsController = require('../api/carts');
 const usersController = require('../api/users');
 const consoleLogger = require('../lib/logger').loggerConsole;
+const emailSender = require('../lib/email');
 
 router.get("/", (req, res) => {
     res.render("index", {user: req.user});
@@ -104,9 +105,21 @@ router.get("/logout", (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.redirect("/");
+        res.redirect(308,"/");
     });
 });
+
+router.get('/confirmPurchase', async (req, res, next) => {
+    const cart = await cartsController.findOne({user: req.user.id});
+    cart.products = [];
+    await cartsController.update(cart._id.toString(), cart);
+    res.redirect('/purchaseConfirmed');
+});
+
+router.get('/purchaseConfirmed', (req, res, next) => {
+    res.render("purchaseConfirmed", {user: req.user});
+});
+
 
 router.get("/ping", (req, res) => {
     res.status(200).send("pong!");
