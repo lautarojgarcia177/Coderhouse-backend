@@ -10,9 +10,9 @@ const log4jsConfig = log4js.configure({
     }
 });
 
-const loggerConsol = log4js.getLogger('consol');
+const loggerConsole = log4js.getLogger('consol');
 
 module.exports = {
     log4jsConfig,
-    loggerConsol,
+    loggerConsole,
 }

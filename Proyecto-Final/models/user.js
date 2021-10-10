@@ -8,7 +8,7 @@ const User = new Schema({
     address: String,
     age: Number,
     phone: String,
-    photo: Buffer
+    photoFileName: String
 });
 
 User.plugin(passportLocalMongoose);

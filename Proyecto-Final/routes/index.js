@@ -3,10 +3,11 @@ const passport = require("passport");
 const User = require("../models/user");
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({dest: 'profile_pictures/'});
+const upload = multer({dest: 'public/profile_pictures/'});
 const productsController = require('../api/products');
 const cartsController = require('../api/carts');
 const usersController = require('../api/users');
+const consoleLogger = require('../lib/logger').loggerConsole;
 
 router.get("/", (req, res) => {
     res.render("index", {user: req.user});
@@ -32,41 +33,47 @@ router.get('/checkout', async (req, res, next) => {
         const product = await productsController.findById(cp.product.toString());
         cp.title = product.title;
     }
-    res.render("checkout", {user: req.user, cart });
+    res.render("checkout", {user: req.user, cart});
 });
 
 router.post("/register", upload.single("photo"), (req, res, next) => {
+    const newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        name: req.body.name,
+        address: req.body.address,
+        age: req.body.age,
+        phone: req.body.phone,
+    }
     User.register(
-        new User({
-            username: req.body.username,
-            email: req.body.email,
-            name: req.body.name,
-            address: req.body.address,
-            age: req.body.age,
-            phone: req.body.phone,
-        }),
+        new User(newUser),
         req.body.password,
         (err, user) => {
             if (err) {
                 return res.render("register", {error: err.message});
             }
             // Upload profile picture
-            console.log(req.file);
+            // console.log(req.file);
             // Create new cart for this user
             cartsController.create({
                 products: [],
                 user: user._doc._id
             }).then(() => {
-                passport.authenticate("local")(req, res, () => {
-                    req.session.save((err) => {
-                        if (err) {
-                            return next(err);
-                        }
-                        res.redirect("/");
-                    });
-                });
+                usersController.findAll().then((users) => {
+                    const user = users.find(u => u.username == req.body.username && u.email == req.body.email)
+                    usersController.update(user._id.toString(), {photoFileName: req.file.filename}).then(() => {
+                        passport.authenticate("local")(req, res, () => {
+                            req.session.save((err) => {
+                                if (err) {
+                                    return next(err);
+                                }
+                                res.redirect("/");
+                            });
+                        });
+                    })
+                })
             })
-                .catch(err => console.log('there was an error creating the cart', err));
+                .catch(err => consoleLogger.warn('there was an error creating the cart', err));
         }
     );
 });

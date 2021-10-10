@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../api/carts');
 const productsController = require('../api/products');
+const consoleLogger = require('../lib/logger').loggerConsole;
 
 router.get('/carts', async (req, res) => {
     try {
@@ -74,7 +75,7 @@ router.patch('/carts/addProduct/:productId', (req, res, next) => {
                 let updatedCart = await controller.update(cart._id.toString(), cart).lean();
                 await productsController.update(req.params.productId, {stock});
                 return res.json(updatedCart);
-            }).catch(err => console.log('There was an error updating the  cart', err));
+            }).catch(err => consoleLogger.warn('There was an error updating the  cart', err));
         });
     } catch (error) {
         return res.status(500).send({error});
