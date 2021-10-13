@@ -14,14 +14,20 @@ let products = [
         "stock": "2"
     },
     {
-        "timestamp": "",
+        "id": 2,
         "nombre": "Regla larga",
         "descripcion": "Regla para medir",
-        "codigo": "koasfioho",
         "foto": "https://th.bing.com/th/id/OIP.lw--bUimP009U15xYwReMwHaHa?pid=ImgDet&rs=1",
         "precio": "170",
-        "stock": "10",
-        "id": 3
+        "stock": "10"
+    },
+    {
+        "id": 3,
+        "nombre": "Tiza",
+        "descripcion": "Tiza para escribir en pizzarrón",
+        "foto": "https://th.bing.com/th/id/OIP.lw--bUimP009U15xYwReMwHaHa?pid=ImgDet&rs=1",
+        "precio": "170",
+        "stock": "10"
     }
 ];
 
@@ -53,9 +59,10 @@ router.get('/:id', (ctx, next) => {
     next();
 });
 
+/* Post */
 router.post('/new', (ctx, next) => {
     if (
-        !ctx.request.body.id || !ctx.request.body.name || !ctx.request.body.author
+        !ctx.request.body.id || !ctx.request.body.id || !ctx.request.body.nombre || !ctx.request.body.descripcion || !ctx.request.body.foto || !ctx.request.body.precio || !ctx.request.body.stock
     ) {
         ctx.response.status = 400;
         ctx.body = {
@@ -78,5 +85,44 @@ router.post('/new', (ctx, next) => {
         };
     }
     next();
-})
+});
 
+/* Put */
+router.put('/update/:id', (ctx, next) => {
+    // Check if any of the data field not empty
+    if (
+        !ctx.request.body.id || !ctx.request.body.id || !ctx.request.body.nombre || !ctx.request.body.descripcion || !ctx.request.body.foto || !ctx.request.body.precio || !ctx.request.body.stock
+    ) {
+        ctx.response.status = 400;
+        ctx.body = {
+            status: 'error',
+            message: 'Please enter the data'
+        }
+    } else {
+        let id = ctx.params.id
+        let index = products.findIndex(product => product.id == id)
+        products.splice(index, 1, ctx.request.body)
+        ctx.response.status = 201;
+        ctx.body = {
+            status: 'success',
+            message: `New book updated`
+        };
+    }
+    next();
+});
+
+/* Delete */
+router.delete('/delete/:id', (ctx, next) => {
+    let id = ctx.params.id
+	let index = products.findIndex(product => product.id == id)
+    products.splice(index,1)
+    ctx.response.status = 200;
+    ctx.body = {
+        status: 'success',
+        message: `Product deleted`
+    };
+	next();
+});
+
+
+module.exports = router;
