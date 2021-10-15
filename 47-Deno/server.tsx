@@ -13,6 +13,15 @@ function actualizarColores(color: any) {
     coloresAMostrar = colores.map((color) => <li>{color}</li>);
 }
 
+function handleSubmit(e: any) {
+  console.log('event', e);
+  e.preventDefault();
+  // fetch("/color", {
+  //   method: 'POST',
+  //   body: e.
+  // })
+}
+
 app.handle("/", async (req) => {
   await req.respond({
     status: 200,
@@ -27,7 +36,7 @@ app.handle("/", async (req) => {
         </head>
         <body>
           <h1>Seleccione el color</h1>
-          <form action="/color" method="post">
+          <form onSubmit={handleSubmit} method="post">
               <input type="color"></input>
               <input type="submit"></input>
           </form>
@@ -41,6 +50,7 @@ app.handle("/", async (req) => {
 });
 
 app.handle("/color", async(req) => {
+  console.log('been here', req);
     actualizarColores(req.body);
 });
 
