@@ -2,25 +2,32 @@
 import React from "https://dev.jspm.io/react/index.js";
 // @deno-types="https://deno.land/x/servest@v1.3.1/types/react-dom/server/index.d.ts"
 import ReactDOMServer from "https://dev.jspm.io/react-dom/server.js";
-import { createApp } from "https://deno.land/x/servest@v1.3.1/mod.ts";
+import {
+  contentTypeFilter,
+  createApp,
+} from "https://deno.land/x/servest@v1.3.1/mod.ts";
 
 const app = createApp();
-let colores: Array<any> = [];
-let coloresAMostrar: any;
+let colors: Array<any> = [];
 
-function actualizarColores(color: any) {
-    colores.push(color);
-    coloresAMostrar = colores.map((color) => <li>{color}</li>);
-}
+const listColors = colors.map((color) => (<li>color</li>));
 
-function handleSubmit(e: any) {
-  console.log('event', e);
-  e.preventDefault();
-  // fetch("/color", {
-  //   method: 'POST',
-  //   body: e.
-  // })
-}
+const htmlPage = (
+  <html>
+    <head>
+      <meta charSet="utf-8" />
+      <title>servest</title>
+    </head>
+    <body>
+      <h1>Seleccione el color</h1>
+      <form action="/color" method="post">
+        <input type="color" name="color"></input>
+        <input type="submit"></input>
+      </form>
+      <ul>{colors}</ul>
+    </body>
+  </html>
+);
 
 app.handle("/", async (req) => {
   await req.respond({
@@ -28,30 +35,25 @@ app.handle("/", async (req) => {
     headers: new Headers({
       "content-type": "text/html; charset=UTF-8",
     }),
-    body: ReactDOMServer.renderToString(
-      <html>
-        <head>
-          <meta charSet="utf-8" />
-          <title>servest</title>
-        </head>
-        <body>
-          <h1>Seleccione el color</h1>
-          <form onSubmit={handleSubmit} method="post">
-              <input type="color"></input>
-              <input type="submit"></input>
-          </form>
-            <ul>
-                {coloresAMostrar}
-            </ul>
-        </body>
-      </html>
-    ),
+    body: ReactDOMServer.renderToString(htmlPage),
   });
 });
 
-app.handle("/color", async(req) => {
-  console.log('been here', req);
-    actualizarColores(req.body);
-});
+app.post(
+  "/color",
+  contentTypeFilter("application/x-www-form-urlencoded"),
+  async (req) => {
+    const bodyForm = await req.formData();
+    const color = bodyForm.value("color");
+    colors.push(color);
+    await req.respond({
+      status: 200,
+      headers: new Headers({
+        "content-type": "text/html; charset=UTF-8",
+      }),
+      body: ReactDOMServer.renderToString(htmlPage),
+    });
+  }
+);
 
 app.listen({ port: 8899 });
