@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .container
+    if(user)
+      ul(class="nav nav-tabs")
+        li(role="presentation" class="active")
+          a(href="/") Home
+        li(role="presentation")
+          a(href="profile") Profile
+        li(role="presentation")
+          a(href="products") Products
+        li(role="presentation")
+          a(href="checkout") checkout

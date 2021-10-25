@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .container
+    if(user)
+        ul(class="nav nav-tabs")
+            li(role="presentation")
+                a(href="/") Home
+            li(role="presentation")
+                a(href="profile") Profile
+            li(role="presentation")
+             a(href="products") Products
+            li(role="presentation")
+                a(href="checkout" class="active") checkout
+        br
+        h2 Checkout
+        table(class="table")
+            tr
+                td
+                    strong Title
+                td 
+                    strong Amount
+            each product in cart.products
+                tr
+                    td= product.title
+                    td= product.amount
+
+        button.btn.btn-default(type='button' onclick="confirmPurchase()") Purchase
+
+    script(src="scripts/checkout_page.js")
