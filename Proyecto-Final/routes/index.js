@@ -66,6 +66,7 @@ router.post("/register", upload.single("photo"), (req, res, next) => {
                         passport.authenticate("local")(req, res, () => {
                             // Generate and send the auth token, then redirect to index
                             let user = usersController.findOne(user => user.username === req.body.username);
+                            req.user = user;
                             const authToken = jwtAuth.issueJWT(user);
                             res.set('Authorization', authToken.token );
                             res.redirect('/');
@@ -84,15 +85,16 @@ router.get("/login", (req, res) => {
 
 router.post(
     "/login",
-    passport.authenticate("local", {
-        failureRedirect: "/login",
-        failureFlash: true,
-    }),
+    passport.authenticate("local"),
     (req, res, next) => {
         let user = usersController.findOne({ username: req.body.username });
-        const authToken = jwtAuth.issueJWT(user);
-        res.set('Authorization', authToken.token );
-        res.redirect('/');
+        if (user) {
+            const authToken = jwtAuth.issueJWT(user);
+            res.set('Authorization', authToken.token );
+            res.redirect('/');
+        } else {
+            res.redirect('/login');
+        }
     }
 );
 

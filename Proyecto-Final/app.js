@@ -58,8 +58,6 @@ app.use("/", routes);
 app.use("/", cartsRouter);
 app.use("/", productsRouter);
 
-
-
 var consoleLogger = require('./lib/logger').loggerConsole;
 
 // catch 404 and forward to error handler

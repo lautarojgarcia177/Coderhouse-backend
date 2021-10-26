@@ -11,6 +11,10 @@ const User = new Schema({
     photoFileName: String
 });
 
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+    // usernameField: 'username',
+    // usernameLowerCase: true,
+    session: false
+});
 
 module.exports = mongoose.model('user', User);
