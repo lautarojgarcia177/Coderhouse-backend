@@ -1,0 +1,12 @@
+<% if (error && error.length > 0) { %>
+<br>
+<h4 class="error-msg"> <% error %> </h4>
+<br>
+<% } %>
+<div class="container">
+	<% if (!user) { %>
+	<a href="/login">Login</a>
+	<br>
+	<a href="/logout">Logout</a>
+	<% } %>
+</div>

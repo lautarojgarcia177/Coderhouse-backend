@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>client side ejs compiled with express middleware</title>
-</head>
+<%- contentFor('./head'); -%>
 <body>
+    <%- include('header'); -%>
 <h1>Proyecto Final</h1>
 <h2>Coderhouse</h2>
 <h3>Backend</h3>
 <h4>Lautaro Garcia</h4>
+    <%- include('./layouts/footer'); -%>
 </body>
 </html>
