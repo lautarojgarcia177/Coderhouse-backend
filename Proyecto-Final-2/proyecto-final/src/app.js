@@ -14,13 +14,11 @@ const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const ejs = require('ejs');
-const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 
 const app = express();
-app.set('views', path.join(__dirname, 'views'));
-app.use(expressLayouts);
-app.set('layout', './layouts/full-width');
+app.use('/static', express.static(__dirname + '/public'));
+app.set('views', path.join(__dirname, './views'))
 app.set('view engine', 'ejs');
 
 if (config.env !== 'test') {
