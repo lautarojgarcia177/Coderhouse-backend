@@ -1,9 +1,12 @@
-/log/*.log
-/tmp
-.DS_Store
-.idea/
-.sass-cache
-*~
+# Dependencies
 node_modules
-*.out
-npm-debug.log
+
+# yarn error logs
+yarn-error.log
+
+# Environment varibales
+.env*
+!.env*.example
+
+# Code coverage
+coverage
