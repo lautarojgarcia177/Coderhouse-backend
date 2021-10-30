@@ -5,10 +5,11 @@ formElement.addEventListener('submit', function(event) {
 });
 formElement.addEventListener('formdata', e => {
   const formData = {
+    name: e.formData.get('name'),
     email: e.formData.get('email'),
     password: e.formData.get('password')
   };
-  fetch('api/auth/login', {
+  fetch('api/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -16,7 +17,7 @@ formElement.addEventListener('formdata', e => {
     body: JSON.stringify(formData)
   })
     .then(async res => {
-      const responseBody = await res.json();
+        const responseBody = await res.json();
       if (res.ok) {
         // Set token cookies
         const accessToken = responseBody.tokens.access;
@@ -38,10 +39,3 @@ formElement.addEventListener('formdata', e => {
     })
     .catch(err => console.warn);
 });
-
-document.querySelector('#loginAlert').hide();
-const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get('error');
-if(myParam == "Requires_auth") {
-  document.querySelector('#loginAlert').show();
-}

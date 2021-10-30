@@ -39,7 +39,7 @@ const devRoutes = [
 ];
 
 apiRoutes.forEach((route) => {
-  router.use(route.path, route.route);
+  router.use('/api' + route.path, route.route);
 });
 
 viewsRoutes.forEach((route) => {
