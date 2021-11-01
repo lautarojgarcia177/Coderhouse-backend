@@ -23,11 +23,11 @@ formElement.addEventListener('formdata', e => {
         const accessToken = responseBody.tokens.access;
         accessToken.expires = new Date(accessToken.expires);
         accessToken.expires = accessToken.expires.toUTCString();
-        document.cookie = `access-token=${accessToken.token}; expires=${accessToken.expires}`;
+        setCookie('accessToken', accessToken.token, accessToken.expires);
         const refreshToken = responseBody.tokens.refresh;
         refreshToken.expires = new Date(refreshToken.expires);
         refreshToken.expires = refreshToken.expires.toUTCString();
-        document.cookie = `refresh-token=${refreshToken.token}; expires=${refreshToken.expires}`;
+        setCookie('refreshToken', refreshToken.token, refreshToken.expires);
         window.location.href = '/';
       } else {
         const alertElement = document.createElement('div');

@@ -1,11 +1,15 @@
 const express = require('express');
-const auth = require('../middlewares/auth');
+const authMiddlewares = require('../middlewares/auth');
+const passport = require('passport');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get((req, res) => res.render('index', {}));
+  .get(
+    authMiddlewares.getUser(),
+    (req, res) => res.render('index', { user: req.user })
+  );
 
 router
   .route('/login')
@@ -20,13 +24,7 @@ router
 router
   .route('/products')
   .get(
-    auth(),
-    (req, res, next) => {
-      debugger;
-      console.log('been here');
-      next();
-    }
-    ,
+    authMiddlewares.auth(),
     (req, res) => {
       let products = [
         {
@@ -39,7 +37,7 @@ router
         }
       ];
 
-      return res.render('products', { products });
+      return res.render('products', { products, user: req.user });
     }
   );
 

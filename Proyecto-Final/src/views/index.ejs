@@ -2,11 +2,14 @@
 <html>
     <%- include('./layouts/head'); -%>
 <body>
-<h1>Proyecto Final</h1>
-<h2>Coderhouse</h2>
-<h3>Backend</h3>
-<h4>Lautaro Garcia</h4>
-
+    <%- include('./layouts/header'); -%>
+    <h1>Proyecto Final</h1>
+    <h2>Coderhouse</h2>
+    <h3>Backend</h3>
+    <h4>Lautaro Garcia</h4>
+    <% if (user) { %>
+        <p>user.name</p>
+    <% } %>
     <%- include('./layouts/footer'); -%>
 </body>
 </html>

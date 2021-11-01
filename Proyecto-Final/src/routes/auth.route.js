@@ -2,17 +2,18 @@ const express = require('express');
 const validate = require('../middlewares/validate');
 const authValidation = require('../validations/auth.validation');
 const authController = require('../controllers/auth.controller');
-const auth = require('../middlewares/auth');
+const authMiddlewares = require('../middlewares/auth');
+const utilMiddlewares = require('../middlewares/utils');
 
 const router = express.Router();
 
 router.post('/register', validate(authValidation.register), authController.register);
-router.post('/login', validate(authValidation.login), authController.login);
-router.post('/logout', validate(authValidation.logout), authController.logout);
+router.post('/login', utilMiddlewares.logBody ,validate(authValidation.login), authController.login);
+router.post('/logout', (req, res, next) => { console.log('logout', req.body); next();},validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 router.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
-router.post('/send-verification-email', auth(), authController.sendVerificationEmail);
+router.post('/send-verification-email', authMiddlewares.auth(), authController.sendVerificationEmail);
 router.post('/verify-email', validate(authValidation.verifyEmail), authController.verifyEmail);
 
 module.exports = router;
@@ -74,7 +75,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     summary: Login
  *     tags: [Auth]
@@ -122,7 +123,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/logout:
+ * /api/auth/logout:
  *   post:
  *     summary: Logout
  *     tags: [Auth]
@@ -148,7 +149,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/refresh-tokens:
+ * /api/auth/refresh-tokens:
  *   post:
  *     summary: Refresh auth tokens
  *     tags: [Auth]
@@ -178,7 +179,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/forgot-password:
+ * /api/auth/forgot-password:
  *   post:
  *     summary: Forgot password
  *     description: An email will be sent to reset password.
@@ -206,7 +207,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/reset-password:
+ * /api/auth/reset-password:
  *   post:
  *     summary: Reset password
  *     tags: [Auth]
@@ -249,7 +250,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/send-verification-email:
+ * /api/auth/send-verification-email:
  *   post:
  *     summary: Send verification email
  *     description: An email will be sent to verify email.
@@ -265,7 +266,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/verify-email:
+ * /api/auth/verify-email:
  *   post:
  *     summary: verify email
  *     tags: [Auth]

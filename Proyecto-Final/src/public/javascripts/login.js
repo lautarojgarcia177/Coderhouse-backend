@@ -1,4 +1,6 @@
 const formElement = document.querySelector('form');
+const broadcastChannel = new BroadcastChannel('sw_channel');
+
 formElement.addEventListener('submit', function(event) {
   event.preventDefault();
   const formData = new FormData(formElement);
@@ -8,13 +10,14 @@ formElement.addEventListener('formdata', e => {
     email: e.formData.get('email'),
     password: e.formData.get('password')
   };
-  fetch('api/auth/login', {
+  const fetchOptions = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(formData)
-  })
+  };
+  fetch('api/auth/login', fetchOptions)
     .then(async res => {
       const responseBody = await res.json();
       if (res.ok) {
@@ -22,11 +25,16 @@ formElement.addEventListener('formdata', e => {
         const accessToken = responseBody.tokens.access;
         accessToken.expires = new Date(accessToken.expires);
         accessToken.expires = accessToken.expires.toUTCString();
-        document.cookie = `access-token=${accessToken.token}; expires=${accessToken.expires}`;
+        setCookie('accessToken', accessToken.token, accessToken.expires);
         const refreshToken = responseBody.tokens.refresh;
         refreshToken.expires = new Date(refreshToken.expires);
         refreshToken.expires = refreshToken.expires.toUTCString();
-        document.cookie = `refresh-token=${refreshToken.token}; expires=${refreshToken.expires}`;
+        setCookie('refreshToken', refreshToken.token, refreshToken.expires);
+        // send tokens to service worker via broadcastChannel
+        broadcastChannel.postMessage({
+          accessToken: accessToken.token,
+          refreshToken: refreshToken.token
+        });
         window.location.href = '/';
       } else {
         const alertElement = document.createElement('div');
@@ -39,9 +47,9 @@ formElement.addEventListener('formdata', e => {
     .catch(err => console.warn);
 });
 
-document.querySelector('#loginAlert').hide();
+document.querySelector('#loginAlert').classList.add('d-none');
 const urlParams = new URLSearchParams(window.location.search);
 const myParam = urlParams.get('error');
 if(myParam == "Requires_auth") {
-  document.querySelector('#loginAlert').show();
+  document.querySelector('#loginAlert').classList.remove('d-none');
 }

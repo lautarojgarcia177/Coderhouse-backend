@@ -16,17 +16,20 @@ const ApiError = require('./utils/ApiError');
 const ejs = require('ejs');
 const path = require('path');
 const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser')
 
 const app = express();
-app.use('/static', express.static(__dirname + '/public'));
+
+// static resources
+app.use('/', express.static(__dirname + '/public'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+// view engine
 app.set('views', path.join(__dirname, './views'))
 app.set('view engine', 'ejs');
 
-if (config.env !== 'test') {
-  app.use(morgan.successHandler);
-  app.use(morgan.errorHandler);
-}
+// cookie parser
+app.use(cookieParser());
 
 // set security HTTP headers
 app.use(helmet());

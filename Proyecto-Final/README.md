@@ -279,12 +279,12 @@ To require authentication for certain routes, you can use the `auth` middleware.
 
 ```javascript
 const express = require('express');
-const auth = require('../../middlewares/auth');
+const authMiddlewares = require('../../middlewares/auth');
 const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
-router.post('/users', auth(), userController.createUser);
+router.post('/users', authMiddlewares.auth(), userController.createUser);
 ```
 
 These routes require a valid JWT access token in the Authorization request header using the Bearer schema. If the request does not contain a valid access token, an Unauthorized (401) error is thrown.
