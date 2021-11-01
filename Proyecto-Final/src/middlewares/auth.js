@@ -15,10 +15,10 @@ const auth = () => async (req, res, next) => {
     passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject))(req, res, next);
   })
     .then(() => {
-      next()
+      next();
     })
     .catch((err) => {
-      res.redirect('/login?error=' + encodeURIComponent('Requires_auth'));
+      throw new Error(err);
     });
 };
 

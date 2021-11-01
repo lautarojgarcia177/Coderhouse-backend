@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "pm2 start ecosystem.config.json --no-daemon",
-    "dev": "cross-env NODE_ENV=development nodemon src/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "migrateDB": "cd src/models/migration && migrate-mongo up && cd ../.."
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -47,6 +48,7 @@
     "cross-env": "^7.0.3",
     "faker": "^5.1.0",
     "lint-staged": "^11.0.0",
+    "migrate-mongo": "^8.2.3",
     "node-mocks-http": "^1.8.0",
     "nodemon": "^2.0.0"
   }

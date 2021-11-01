@@ -1,5 +1,7 @@
+const logger = require('../config/logger');
+
 const logBody = (req, res, next) => {
-  console.log('request body', req.body);
+  logger.info('Request body', req.body);
   next();
 };
 

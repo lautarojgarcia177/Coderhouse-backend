@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(authMiddlewares.auth('manageProducts'), validate(productValidation.createProduct), productController.createProduct)
-  .get(authMiddlewares.auth('getProducts'), validate(productValidation.getProducts), productController.getProducts);
+  .post(authMiddlewares.auth(), validate(productValidation.createProduct), productController.createProduct)
+  .get(authMiddlewares.auth(),validate(productValidation.getProducts), productController.getProducts);
 
 router
   .route('/:productId')
-  .get(authMiddlewares.auth('getProducts'), validate(productValidation.getProduct), productController.getProduct)
-  .patch(authMiddlewares.auth('manageProducts'), validate(productValidation.updateProduct), productController.updateProduct)
-  .delete(authMiddlewares.auth('manageProducts'), validate(productValidation.deleteProduct), productController.deleteProduct);
+  .get(authMiddlewares.auth(), validate(productValidation.getProduct), productController.getProduct)
+  .patch(authMiddlewares.auth(), validate(productValidation.updateProduct), productController.updateProduct)
+  .delete(authMiddlewares.auth(), validate(productValidation.deleteProduct), productController.deleteProduct);
 
 module.exports = router;
 

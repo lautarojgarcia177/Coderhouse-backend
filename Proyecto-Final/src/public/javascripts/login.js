@@ -52,4 +52,4 @@ const urlParams = new URLSearchParams(window.location.search);
 const myParam = urlParams.get('error');
 if(myParam == "Requires_auth") {
   document.querySelector('#loginAlert').classList.remove('d-none');
-}
+}9

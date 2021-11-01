@@ -4,6 +4,11 @@
 <body>
 <form class="container text-center mt-4 p-5">
     <h1 class="h3 mb-3 fw-normal">Register</h1>
+
+    <div class="alert alert-warning" role="alert" id="registerAlert">
+        <p style="text-align: center;">Passwords don't match</p>
+    </div>
+
     <div class="form-floating">
         <input required type="text" name="name" class="form-control" id="usernameInput" placeholder="lautarojgarcia177">
         <label for="usernameInput">name</label>
@@ -16,8 +21,15 @@
         <input required type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
         <label for="floatingPassword">Password</label>
     </div>
+    <div class="form-floating">
+        <input required type="password" name="repeatPassword" class="form-control" id="repeatPassword" placeholder="Password">
+        <label for="repeatPassword">Repeat Password</label>
+    </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
 </form>
+<div class="text-center">
+    <a href="/login">Login</a>
+</div>
 <%- include('./layouts/footer'); -%>
 <script src="/javascripts/register.js"></script>
 </body>

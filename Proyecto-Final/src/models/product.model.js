@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const categories = ['toys', 'office', 'artistic'];
-
 const productSchema = mongoose.Schema(
   {
     name: {

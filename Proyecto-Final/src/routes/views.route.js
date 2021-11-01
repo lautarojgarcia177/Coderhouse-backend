@@ -7,8 +7,7 @@ const router = express.Router();
 router
   .route('/')
   .get(
-    authMiddlewares.getUser(),
-    (req, res) => res.render('index', { user: req.user })
+    (req, res) => res.render('index')
   );
 
 router
@@ -24,7 +23,6 @@ router
 router
   .route('/products')
   .get(
-    authMiddlewares.auth(),
     (req, res) => {
       let products = [
         {
