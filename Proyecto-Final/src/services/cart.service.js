@@ -7,11 +7,11 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} cartBody
  * @returns {Promise<Cart>}
  */
-const createCart = async (cartBody) => {
-    if (await Cart.isAlreadyCreated(cartBody.user)) {
+const createCart = async (user) => {
+    if (await Cart.isAlreadyCreated(user)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Cart already created');
     }
-    return Cart.create(cartBody);
+    return Cart.create(user._id);
 };
 
 /**
@@ -38,12 +38,12 @@ const getCartById = async (id) => {
 };
 
 /**
- * Get cart by email
- * @param {string} email
+ * Get cart by userId
+ * @param {string} user
  * @returns {Promise<Cart>}
  */
 const getCartByUser = async (user) => {
-    return Cart.findOne({ user });
+    return Cart.findOne({ user: user._id });
 };
 
 /**
@@ -76,11 +76,29 @@ const deleteCartById = async (cartId) => {
     return cart;
 };
 
+/**
+ * Add product to cart
+ * @param {ObjectId} userId
+ * @param {ObjectId} productId
+ * @param {Number} amount
+ * @returns {Promise<Cart>}
+ */
+const addProductToCart = async (userId, productId, amount) => {
+    const cart = await getCartById(cartId);
+    if (!cart) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
+    }
+    Object.assign(cart, updateBody);
+    await cart.save();
+    return cart;
+}
+
 module.exports = {
     createCart,
     queryCarts,
     getCartById,
     getCartByUser,
     updateCartById,
-    deleteCartById
+    deleteCartById,
+    addProductToCart
 };

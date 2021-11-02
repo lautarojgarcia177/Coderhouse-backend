@@ -4,40 +4,32 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { cartService } = require('../services');
 
-const createCart = catchAsync(async (req, res) => {
-  const cart = await cartService.createCart(req.body);
-  res.status(httpStatus.CREATED).send(cart);
-});
-
-const getCarts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await cartService.queryCarts(filter, options);
-  res.send(result);
-});
-
 const getCart = catchAsync(async (req, res) => {
-  const cart = await cartService.getCartById(req.params.cartId);
+  debugger;
+  const user = req.user;
+  const cart = await cartService.getCartByUser(req.user);
   if (!cart) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
   }
   res.send(cart);
 });
 
-const updateCart = catchAsync(async (req, res) => {
-  const cart = await cartService.updateCartById(req.params.cartId, req.body);
+const addProductToCart = catchAsync(async (req, res) => {
+  debugger;
+  // const userId =
+  // const cart = await cartService.addProductToCart(req.user, req.body.product, req.body.amount);
   res.send(cart);
 });
 
-const deleteCart = catchAsync(async (req, res) => {
-  await cartService.deleteCartById(req.params.cartId);
-  res.status(httpStatus.NO_CONTENT).send();
+const removeProductFromCart = catchAsync(async (req, res) => {
+  debugger;
+  // const userId =
+  // const cart = await cartService.addProductToCart(req.user, req.body.product, req.body.amount);
+  res.send(cart);
 });
 
 module.exports = {
-  createCart,
-  getCarts,
   getCart,
-  updateCart,
-  deleteCart,
+  addProductToCart,
+  removeProductFromCart
 };
