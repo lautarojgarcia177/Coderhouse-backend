@@ -2,10 +2,9 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { cartService } = require('../services');
+const { cartService, userService } = require('../services');
 
 const getCart = catchAsync(async (req, res) => {
-  debugger;
   const user = req.user;
   const cart = await cartService.getCartByUser(req.user);
   if (!cart) {
@@ -15,16 +14,15 @@ const getCart = catchAsync(async (req, res) => {
 });
 
 const addProductToCart = catchAsync(async (req, res) => {
-  debugger;
-  // const userId =
-  // const cart = await cartService.addProductToCart(req.user, req.body.product, req.body.amount);
+  const user = await userService.getUserByEmail(req.user.email);
+  const cart = await cartService.addProductToCart(user, req.body.product, req.body.amount);
   res.send(cart);
 });
 
 const removeProductFromCart = catchAsync(async (req, res) => {
   debugger;
-  // const userId =
-  // const cart = await cartService.addProductToCart(req.user, req.body.product, req.body.amount);
+  const user = await userService.getUserByEmail(req.user.email);
+  const cart = await cartService.removeProductFromCart(user, req.body.product, req.body.amount);
   res.send(cart);
 });
 

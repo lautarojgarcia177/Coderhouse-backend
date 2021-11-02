@@ -9,7 +9,6 @@ const cartService = require('./cart.service');
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-  debugger;
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }

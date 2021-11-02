@@ -14,15 +14,11 @@ const apiRoutes = [
     route: authRoute,
   },
   {
-    path: '/users',
-    route: userRoute,
-  },
-  {
     path: '/products',
     route: productRoute
   },
   {
-    path: '/carts',
+    path: '/cart',
     route: cartRoute
   }
 ];

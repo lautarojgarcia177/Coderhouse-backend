@@ -10,17 +10,19 @@ const getCart = {
 const addProductToCart = {
     body: Joi.object()
         .keys({
-            product: Joi.object(),
+            product: Joi.required().custom(objectId),
+            amount: Joi.number()
         })
-        .max(1),
+        .max(2),
 };
 
 const removeProductFromCart = {
     body: Joi.object()
         .keys({
-            product: Joi.object(),
+            product: Joi.required().custom(objectId),
+            amount: Joi.number()
         })
-        .max(1),
+        .max(2),
 }
 
 module.exports = {

@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Cart } = require('../models');
 const ApiError = require('../utils/ApiError');
+const productService = require('./product.service');
 
 /**
  * Create a cart
@@ -8,7 +9,6 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Cart>}
  */
 const createCart = async (user) => {
-    debugger;
     if (await Cart.isAlreadyCreated(user)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Cart already created');
     }
@@ -84,12 +84,55 @@ const deleteCartById = async (cartId) => {
  * @param {Number} amount
  * @returns {Promise<Cart>}
  */
-const addProductToCart = async (userId, productId, amount) => {
-    const cart = await getCartById(cartId);
+const addProductToCart = async (user, productId, amount) => {
+    const _product = await productService.getProductById(productId);
+    if (!_product) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+    }
+    const cart = await Cart.findOne({ user: user._doc._id });
     if (!cart) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
     }
-    Object.assign(cart, updateBody);
+    alreadyExists = cart.products.find(item => item.product == productId);
+    if (alreadyExists) {
+        alreadyExists.amount += amount;
+    } else {
+        cart.products.push({
+            product: _product._doc._id,
+            amount: amount
+        });
+    }
+    await cart.save();
+    return cart;
+}
+
+/**
+ * Remove product from cart
+ * @param {ObjectId} userId
+ * @param {ObjectId} productId
+ * @param {Number} amount
+ * @returns {Promise<Cart>}
+ */
+ const removeProductFromCart = async (user, productId, amount) => {
+    debugger;
+    const _product = await productService.getProductById(productId);
+    if (!_product) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+    }
+    const cart = await Cart.findOne({ user: user._doc._id });
+    if (!cart) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
+    }
+    alreadyExists = cart.products.find(item => item.product._id == productId);
+    if (alreadyExists) {
+        if (alreadyExists.amount >= amount) {
+            alreadyExists.amount -= amount;
+        } else {
+            throw new ApiError(httpStatus.BAD_REQUEST, "Amount is bigger than cart's amount");
+        }
+    } else {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Product is not in cart');
+    }
     await cart.save();
     return cart;
 }
@@ -101,5 +144,6 @@ module.exports = {
     getCartByUser,
     updateCartById,
     deleteCartById,
-    addProductToCart
+    addProductToCart,
+    removeProductFromCart
 };
