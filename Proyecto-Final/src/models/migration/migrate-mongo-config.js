@@ -1,7 +1,6 @@
-// const envConfig = require('../../config/config');
-
 const config = {
     mongodb: {
+        
         url: "mongodb://127.0.0.1:27017/node-boilerplate",
 
         databaseName: "node-boilerplate",

@@ -1,11 +1,10 @@
 {
-  "name": "create-nodejs-express-app",
+  "name": "lautaro-garcia-coderhouse-backend",
   "version": "1.7.0",
-  "description": "Create a Node.js app for building production-ready RESTful APIs using Express, by running one command",
-  "bin": "bin/createNodejsApp.js",
+  "description": "My final proyect of Coderhouse's Backend course",
   "main": "src/index.js",
-  "repository": "https://github.com/hagopj13/node-express-boilerplate.git",
-  "author": "Hagop Jamkojian <hagopj13@gmail.com>",
+  "repository": "https://github.com/lautarojgarcia177/Coderhouse-backend.git",
+  "author": "Lautaro Garcia <lautarojgarcia177@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
@@ -36,7 +35,6 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pm2": "^5.1.0",
-    "serve-favicon": "^2.5.0",
     "swagger-jsdoc": "^6.0.8",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.0.0",

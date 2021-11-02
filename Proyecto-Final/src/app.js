@@ -15,14 +15,9 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const ejs = require('ejs');
 const path = require('path');
-const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser')
 
 const app = express();
-
-// static resources
-app.use('/', express.static(__dirname + '/public'));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // view engine
 app.set('views', path.join(__dirname, './views'))

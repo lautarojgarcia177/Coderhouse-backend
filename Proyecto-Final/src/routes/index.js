@@ -3,17 +3,9 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const productRoute = require('./product.route');
-const viewsRoute = require('./views.route');
 const config = require('../config/config');
 
 const router = express.Router();
-
-const viewsRoutes = [
-  {
-    path: '/',
-    route: viewsRoute
-  }
-];
 
 const apiRoutes = [
   {
@@ -40,10 +32,6 @@ const devRoutes = [
 
 apiRoutes.forEach((route) => {
   router.use('/api' + route.path, route.route);
-});
-
-viewsRoutes.forEach((route) => {
-  router.use(route.path, route.route);
 });
 
 /* istanbul ignore next */

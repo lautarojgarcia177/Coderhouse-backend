@@ -51,22 +51,8 @@ const refreshAuth = async (refreshToken) => {
   }
 };
 
-const verifyTokens = async (accessToken,) => {
-  try {
-    const accessTokenDoc = await tokenService.verifyToken(accessToken, tokenTypes.ACCESS);
-    if (accessTokenDoc) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    return false;
-  }
-}
-
 module.exports = {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,
-  verifyTokens
 };
