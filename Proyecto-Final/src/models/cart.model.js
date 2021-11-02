@@ -25,7 +25,6 @@ const cartSchema = mongoose.Schema(
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: true
         }
     },
     {}
@@ -39,7 +38,7 @@ cartSchema.plugin(toJSON);
  * Check if cart is already created for the user
  */
 cartSchema.statics.isAlreadyCreated = async function (user) {
-    const cart = await this.findOne({ user: user._id });
+    const cart = await this.findOne({ user: user._doc._id });
     return !!cart;
 };
 

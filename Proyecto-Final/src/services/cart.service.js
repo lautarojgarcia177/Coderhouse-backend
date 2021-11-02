@@ -4,14 +4,15 @@ const ApiError = require('../utils/ApiError');
 
 /**
  * Create a cart
- * @param {Object} cartBody
+ * @param {Object} user
  * @returns {Promise<Cart>}
  */
 const createCart = async (user) => {
+    debugger;
     if (await Cart.isAlreadyCreated(user)) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Cart already created');
     }
-    return Cart.create(user._id);
+    return Cart.create({ products: [], user: user._doc._id });
 };
 
 /**
@@ -43,7 +44,7 @@ const getCartById = async (id) => {
  * @returns {Promise<Cart>}
  */
 const getCartByUser = async (user) => {
-    return Cart.findOne({ user: user._id });
+    return Cart.findOne({ user: user._doc._id });
 };
 
 /**
