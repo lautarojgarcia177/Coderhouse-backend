@@ -13,7 +13,6 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
   const user = await User.create(userBody);
-  const cart = await cartService.createCart(user)
   return user;
 };
 

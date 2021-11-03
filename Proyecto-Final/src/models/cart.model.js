@@ -25,6 +25,15 @@ const cartSchema = mongoose.Schema(
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
+        },
+        email: {
+            type: String
+        },
+        deliveryAddress: {
+            type: String
+        },
+        datetime: {
+            type: Date
         }
     },
     {}

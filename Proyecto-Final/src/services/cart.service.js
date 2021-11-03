@@ -89,9 +89,9 @@ const addProductToCart = async (user, productId, amount) => {
     if (!_product) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
     }
-    const cart = await Cart.findOne({ user: user._doc._id });
+    let cart = await Cart.findOne({ user: user._doc._id, datetime: null });
     if (!cart) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
+        cart = await createCart(user)
     }
     alreadyExists = cart.products.find(item => item.product == productId);
     if (alreadyExists) {
@@ -113,13 +113,12 @@ const addProductToCart = async (user, productId, amount) => {
  * @param {Number} amount
  * @returns {Promise<Cart>}
  */
- const removeProductFromCart = async (user, productId, amount) => {
-    debugger;
+const removeProductFromCart = async (user, productId, amount) => {
     const _product = await productService.getProductById(productId);
     if (!_product) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
     }
-    const cart = await Cart.findOne({ user: user._doc._id });
+    const cart = await Cart.findOne({ user: user._doc._id, datetime: null });
     if (!cart) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
     }
@@ -137,6 +136,16 @@ const addProductToCart = async (user, productId, amount) => {
     return cart;
 }
 
+confirmCart = async (user) => {
+    const cart = await Cart.findOne({ user: user._doc._id, datetime: null });
+    if (!cart) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
+    }
+    Object.assign(cart, { datetime: new Date() });
+    await cart.save();
+    return cart;
+}
+
 module.exports = {
     createCart,
     queryCarts,
@@ -145,5 +154,6 @@ module.exports = {
     updateCartById,
     deleteCartById,
     addProductToCart,
-    removeProductFromCart
+    removeProductFromCart,
+    confirmCart
 };

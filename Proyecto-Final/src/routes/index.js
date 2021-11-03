@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const productRoute = require('./product.route');
 const cartRoute = require('./cart.route');
+const orderRoute = require('./order.route');
 const config = require('../config/config');
 const authMiddlewares = require('../middlewares/auth');
 
@@ -21,6 +22,10 @@ const apiRoutes = [
   {
     path: '/cart',
     route: cartRoute
+  },
+  {
+    path: '/order',
+    route: orderRoute
   }
 ];
 
