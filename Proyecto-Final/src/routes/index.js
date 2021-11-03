@@ -5,6 +5,7 @@ const docsRoute = require('./docs.route');
 const productRoute = require('./product.route');
 const cartRoute = require('./cart.route');
 const config = require('../config/config');
+const authMiddlewares = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -30,6 +31,10 @@ const devRoutes = [
     route: docsRoute,
   },
 ];
+
+router.get('/', authMiddlewares.auth(), (req, res, next) => {
+  res.redirect('/api/products');
+});
 
 apiRoutes.forEach((route) => {
   router.use('/api' + route.path, route.route);

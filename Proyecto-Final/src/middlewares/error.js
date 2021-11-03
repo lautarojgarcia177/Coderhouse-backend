@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.locals.errorMessage = err.message;
 
-  const response = {
+  const error = {
     code: statusCode,
     message,
     ...(config.env === 'development' && { stack: err.stack }),
@@ -35,7 +35,7 @@ const errorHandler = (err, req, res, next) => {
     logger.error(err);
   }
 
-  res.status(statusCode).send(response);
+  res.status(statusCode).render('error', error);
 };
 
 module.exports = {
