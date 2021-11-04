@@ -58,7 +58,7 @@ Running in production:
 yarn start
 ```
 
-## Environment Variables
+## Variables de entorno
 
 Las variables de entorno se encuentran en el archivo `.env`. Vienen con estos valores por defecto:
 
