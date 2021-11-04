@@ -112,17 +112,17 @@ Para ver el listado de endpoints y sus especificaciones, importar el archivo Ent
 Listado de rutas disponibles:
 
 **Auth routes**:\
-`POST /auth/register` - register\
-`POST /auth/login` - login\
-`POST /auth/refresh-tokens` - refrescar auth tokens\
-`POST /auth/verify-tokens` - verificar auth tokens\
+`POST /api/auth/register` - register\
+`POST /api/auth/login` - login\
+`POST /api/auth/refresh-tokens` - refrescar auth tokens\
+`POST /api/auth/verify-tokens` - verificar auth tokens\
 
-**User routes**:\
-`POST /users` - crear un usuario\
-`GET /users` - obtener todos los usuarios\
-`GET /users/:userId` - obtener un usuario\
-`PATCH /users/:userId` - actualizar un usuario\
-`DELETE /users/:userId` - eliminar un usuario
+**Product routes**:\
+`POST /api/products` - crear un producto\
+`GET /api/products` - obtener todos los producto\
+`GET /api/products/:product` - obtener un producto\
+`PATCH /api/products/:productId` - actualizar un producto\
+`DELETE /api/products/:productId` - eliminar un producto
 
 ## Error Handling
 
