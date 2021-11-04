@@ -2,31 +2,51 @@
 
 ## Quick Start
 
+Instalar dependencias
 ```bash
 yarn install
+```
+
+Migrar la Base de datos
+```bash
+yarn migrateDB
+```
+
+Levantar en modo desarrollo
+```bash
 yarn dev
+```
+
+Levantar en modo produccion
+```bash
+yarn start
 ```
 
 ## Table of Contents
 
 - [Entrega Final de Lautaro Garcia para el curso de Coderhouse Backend](#entrega-final-de-lautaro-garcia-para-el-curso-de-coderhouse-backend)
   - [Quick Start](#quick-start)
-  - [Tabla de contenidos](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Features](#features)
-  - [Comandos](#commands)
-  - [Variables de entorno](#environment-variables)
-  - [Estructura del proyecto](#project-structure)
+  - [Commands](#commands)
+  - [Variables de entorno](#variables-de-entorno)
+  - [Estructura del proyecto](#estructura-del-proyecto)
+  - [Migracion de BD](#migracion-de-bd)
   - [API Documentation](#api-documentation)
     - [API Endpoints](#api-endpoints)
   - [Error Handling](#error-handling)
-  - [Validacion](#validation)
-  - [Autenticacion](#authentication)
-  - [Autorizacion](#authorization)
+  - [Validacion](#validacion)
+  - [Autenticacion](#autenticacion)
   - [Logging](#logging)
-  - [Plugins Custom para Mongoose](#custom-mongoose-plugins)
+  - [Plugins Custom para Mongoose](#plugins-custom-para-mongoose)
     - [toJSON](#tojson)
     - [paginate](#paginate)
-    - [autoincrement](#autoincrement)
+    - [autoIncrement](#autoincrement)
+  - [Limiter](#limiter)
+  - [Aclaraciones](#aclaraciones)
+      - [Duracion del tiempo de sesión](#duracion-del-tiempo-de-sesión)
+      - [Configuracion de diversos entornos](#configuracion-de-diversos-entornos)
+      - [Fecha y hora de las ordenes](#fecha-y-hora-de-las-ordenes)
 
 ## Features
 
@@ -103,6 +123,9 @@ src\
   | --app.js # Aplicación Express
   |--index.js        # Punto de entrada de la aplicación
 ```
+
+## Migracion de BD
+Para migrar la base de datos, se utiliza el paquete `migrate-mongo`(https://www.npmjs.com/package/migrate-mongo). Utilizar el comando definido en package.json
 
 ## API Documentation
 
@@ -320,6 +343,9 @@ El método `paginate` devuelve una Promise, que cumple con un objeto que tiene l
 ### autoIncrement
 
 Para autoincrementar el número de orden en el modelo de ordenes, se utiliza el paquete npm `mongoose-auto-increment`(https://www.npmjs.com/package/mongoose-auto-increment)
+
+## Limiter
+Se implemento un limiter para los request fallidos a los endpoints de auth, utilizando el paquete `express-rate-limit`(https://www.npmjs.com/package/express-rate-limit)
 
 ## Aclaraciones
 

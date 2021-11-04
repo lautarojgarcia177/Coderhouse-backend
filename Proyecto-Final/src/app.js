@@ -52,7 +52,7 @@ passport.use('jwt', jwtStrategy);
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
-  app.use('/auth', authLimiter);
+  app.use('/api/auth', authLimiter);
 }
 
 app.use('/', routes);
