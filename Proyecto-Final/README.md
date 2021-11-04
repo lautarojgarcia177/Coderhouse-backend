@@ -23,7 +23,7 @@ yarn dev
   - [Autenticacion](#authentication)
   - [Autorizacion](#authorization)
   - [Logging](#logging)
-  - [Custom Mongoose Plugins](#custom-mongoose-plugins)
+  - [Plugins Custom para Mongoose](#custom-mongoose-plugins)
     - [toJSON](#tojson)
     - [paginate](#paginate)
     - [autoincrement](#autoincrement)
@@ -300,3 +300,7 @@ El método `paginate` devuelve una Promise, que cumple con un objeto que tiene l
   "totalResults": 48
 }
 ```
+
+### autoIncrement
+
+Para autoincrementar el número de orden en el modelo de ordenes, se utiliza el paquete npm `mongoose-auto-increment`(https://www.npmjs.com/package/mongoose-auto-increment)
