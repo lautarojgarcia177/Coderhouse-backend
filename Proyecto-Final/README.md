@@ -30,7 +30,7 @@ yarn dev
 
 ## Features
 
-- **NoSQL database**: [MongoDB](https://www.mongodb.com) Object data modeling utilizando [Mongoose](https://mongoosejs.com)
+- **Base de datos NoSQL**: [MongoDB](https://www.mongodb.com) Object data modeling utilizando [Mongoose](https://mongoosejs.com)
 - **Autenticacion and autorizacion**: utilizando JWT [passport](http://www.passportjs.org)
 - **Validacion**: request data validation con [Joi](https://github.com/hapijs/joi)
 - **Logging**: utilizando [winston](https://github.com/winstonjs/winston) and [morgan](https://github.com/expressjs/morgan)
@@ -86,7 +86,7 @@ SMTP_PASSWORD=email-server-password
 EMAIL_FROM=support@yourapp.com
 ```
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 src\
@@ -100,49 +100,46 @@ src\
   | --utils \ # Funciones y clases de utilidad
   | --validations \ # Solicitar esquemas de validación de datos
   | --app.js # Aplicación Express
- |--index.js        # Punto de entrada de la aplicación
+  |--index.js        # Punto de entrada de la aplicación
 ```
 
 ## API Documentation
 
-To view the list of available APIs and their specifications, run the server and go to `http://localhost:3000/docs` in your browser. This documentation page is automatically generated using the [swagger](https://swagger.io/) definitions written as comments in the route files.
+Para ver el listado de endpoints y sus especificaciones, importar el archivo Entrega_Final.postman_collection.json en Postman
 
 ### API Endpoints
 
-List of available routes:
+Listado de rutas disponibles:
 
 **Auth routes**:\
 `POST /auth/register` - register\
 `POST /auth/login` - login\
-`POST /auth/refresh-tokens` - refresh auth tokens\
-`POST /auth/forgot-password` - send reset password email\
-`POST /auth/reset-password` - reset password\
-`POST /auth/send-verification-email` - send verification email\
-`POST /auth/verify-email` - verify email
+`POST /auth/refresh-tokens` - refrescar auth tokens\
+`POST /auth/verify-tokens` - verificar auth tokens\
 
 **User routes**:\
-`POST /users` - create a user\
-`GET /users` - get all users\
-`GET /users/:userId` - get user\
-`PATCH /users/:userId` - update user\
-`DELETE /users/:userId` - delete user
+`POST /users` - crear un usuario\
+`GET /users` - obtener todos los usuarios\
+`GET /users/:userId` - obtener un usuario\
+`PATCH /users/:userId` - actualizar un usuario\
+`DELETE /users/:userId` - eliminar un usuario
 
 ## Error Handling
 
-The app has a centralized error handling mechanism.
+La aplicación tiene un mecanismo de manejo de errores centralizado.
 
-Controllers should try to catch the errors and forward them to the error handling middleware (by calling `next(error)`). For convenience, you can also wrap the controller inside the catchAsync utility wrapper, which forwards the error.
+Los controladores intentan detectar los errores y reenviarlos al middleware de manejo de errores (llamando a `next (error)`). Para mayor comodidad, también se envuelve el controlador dentro del contenedor de la utilidad catchAsync, que reenvía el error.
 
 ```javascript
 const catchAsync = require('../utils/catchAsync');
 
 const controller = catchAsync(async (req, res) => {
-  // this error will be forwarded to the error handling middleware
+  // Este error se reenviará al middleware de manejo de errores
   throw new Error('Something wrong happened');
 });
 ```
+El middleware de manejo de errores envía una respuesta de error, que tiene el siguiente formato:
 
-The error handling middleware sends an error response, which has the following format:
 
 ```json
 {
@@ -150,12 +147,11 @@ The error handling middleware sends an error response, which has the following f
   "message": "Not found"
 }
 ```
+Cuando se ejecuta en modo de desarrollo, la respuesta de error también contiene la pila de errores.
 
-When running in development mode, the error response also contains the error stack.
+La aplicación tiene una clase de utilidad ApiError a la que puede adjuntar un código de respuesta y un mensaje, y luego lanzarlo desde cualquier lugar (catchAsync lo detectará).
 
-The app has a utility ApiError class to which you can attach a response code and a message, and then throw it from anywhere (catchAsync will catch it).
-
-For example, if you are trying to get a user from the DB who is not found, and you want to send a 404 error, the code should look something like:
+Por ejemplo, si está tratando de obtener un usuario de la base de datos que no se encuentra y desea enviar un error 404, el código debería verse así:
 
 ```javascript
 const httpStatus = require('http-status');
@@ -170,11 +166,11 @@ const getUser = async (userId) => {
 };
 ```
 
-## Validation
+## Validacion
 
-Request data is validated using [Joi](https://joi.dev/). Check the [documentation](https://joi.dev/api/) for more details on how to write Joi validation schemas.
+Los datos de la solicitud se validan mediante [Joi] (https://joi.dev/). Consulte la [documentación] (https://joi.dev/api/) para obtener más detalles sobre cómo escribir esquemas de validación Joi.
 
-The validation schemas are defined in the `src/validations` directory and are used in the routes by providing them as parameters to the `validate` middleware.
+Los esquemas de validación se definen en el directorio `src / validations` y se utilizan en las rutas proporcionándolos como parámetros al middleware` validate`.
 
 ```javascript
 const express = require('express');
@@ -187,9 +183,9 @@ const router = express.Router();
 router.post('/users', validate(userValidation.createUser), userController.createUser);
 ```
 
-## Authentication
+## Autenticacion
 
-To require authentication for certain routes, you can use the `auth` middleware.
+Para requerir autenticación para ciertas rutas, puede usar el middleware `auth`.
 
 ```javascript
 const express = require('express');
@@ -201,68 +197,46 @@ const router = express.Router();
 router.post('/users', authMiddlewares.auth(), userController.createUser);
 ```
 
-These routes require a valid JWT access token in the Authorization request header using the Bearer schema. If the request does not contain a valid access token, an Unauthorized (401) error is thrown.
+Estas rutas requieren un token de acceso JWT válido en el encabezado de la solicitud de autorización utilizando el esquema de portador. Si la solicitud no contiene un token de acceso válido, se genera un error No autorizado (401).
 
-**Generating Access Tokens**:
+**Generando Access Tokens**:
 
-An access token can be generated by making a successful call to the register (`POST /auth/register`) or login (`POST /auth/login`) endpoints. The response of these endpoints also contains refresh tokens (explained below).
+Se puede generar un token de acceso haciendo una llamada exitosa a los puntos finales de registro (`POST / auth / register`) o de inicio de sesión (` POST / auth / login`). La respuesta de estos puntos finales también contiene tokens de actualización (que se explican a continuación).
 
-An access token is valid for 30 minutes. You can modify this expiration time by changing the `JWT_ACCESS_EXPIRATION_MINUTES` environment variable in the .env file.
+Un token de acceso es válido por 30 minutos. Puede modificar este tiempo de vencimiento cambiando la variable de entorno `JWT_ACCESS_EXPIRATION_MINUTES` en el archivo .env.
 
-**Refreshing Access Tokens**:
+**Refrescando Access Tokens**:
 
-After the access token expires, a new access token can be generated, by making a call to the refresh token endpoint (`POST /auth/refresh-tokens`) and sending along a valid refresh token in the request body. This call returns a new access token and a new refresh token.
+Una vez que expira el token de acceso, se puede generar un nuevo token de acceso haciendo una llamada al punto final del token de actualización (`POST / auth / refresh-tokens`) y enviando un token de actualización válido en el cuerpo de la solicitud. Esta llamada devuelve un nuevo token de acceso y un nuevo token de actualización.
 
-A refresh token is valid for 30 days. You can modify this expiration time by changing the `JWT_REFRESH_EXPIRATION_DAYS` environment variable in the .env file.
-
-## Authorization
-
-The `auth` middleware can also be used to require certain rights/permissions to access a route.
-
-```javascript
-const express = require('express');
-const auth = require('../../middlewares/auth');
-const userController = require('../../controllers/user.controller');
-
-const router = express.Router();
-
-router.post('/users', auth('manageUsers'), userController.createUser);
-```
-
-In the example above, an authenticated user can access this route only if that user has the `manageUsers` permission.
-
-The permissions are role-based. You can view the permissions/rights of each role in the `src/config/roles.js` file.
-
-If the user making the request does not have the required permissions to access this route, a Forbidden (403) error is thrown.
+Un token de actualización es válido por 30 días. Se puede modificar este tiempo de vencimiento cambiando la variable de entorno `JWT_REFRESH_EXPIRATION_DAYS` en el archivo .env.
 
 ## Logging
 
-Import the logger from `src/config/logger.js`. It is using the [Winston](https://github.com/winstonjs/winston) logging library.
+Ubicado en `src / config / logger.js`. Se utiliza la biblioteca de registro [Winston] (https://github.com/winstonjs/winston).
 
-Logging should be done according to the following severity levels (ascending order from most important to least important):
+El registro se realiza de acuerdo con los siguientes niveles de gravedad (orden ascendente del más importante al menos importante):
 
 ```javascript
 const logger = require('<path to src>/config/logger');
 
-logger.error('message'); // level 0
-logger.warn('message'); // level 1
-logger.info('message'); // level 2
-logger.http('message'); // level 3
-logger.verbose('message'); // level 4
-logger.debug('message'); // level 5
+logger.error('message'); // nivel 0
+logger.warn('message'); // nivel 1
+logger.info('message'); // nivel 2
+logger.http('message'); // nivel 3
+logger.verbose('message'); // nivel 4
+logger.debug('message'); // nivel 5
 ```
 
-In development mode, log messages of all severity levels will be printed to the console.
+En el modo de desarrollo, los mensajes de registro de todos los niveles de gravedad se imprimirán en la consola.
 
-In production mode, only `info`, `warn`, and `error` logs will be printed to the console.\
-It is up to the server (or process manager) to actually read them from the console and store them in log files.\
-This app uses pm2 in production mode, which is already configured to store the logs in log files.
+En el modo de producción, solo se imprimirán en la consola los registros `info`,` warn` y `error`. \
+Depende del servidor (o administrador de procesos) leerlos desde la consola y almacenarlos en archivos de registro. \
+Esta aplicación utiliza pm2 en modo de producción, que ya está configurado para almacenar los registros en archivos de registro.
 
-Note: API request information (request url, response code, timestamp, etc.) are also automatically logged (using [morgan](https://github.com/expressjs/morgan)).
+## Plugins Custom para Mongoose
 
-## Custom Mongoose Plugins
-
-The app also contains 2 custom mongoose plugins that you can attach to any mongoose model schema. You can find the plugins in `src/models/plugins`.
+La aplicación también contiene 3 complementos personalizados de mangosta que puede adjuntar a cualquier esquema de modelo de mangosta. Puede encontrar los complementos en `src / models / plugins`.
 
 ```javascript
 const mongoose = require('mongoose');
@@ -283,16 +257,16 @@ const User = mongoose.model('User', userSchema);
 
 ### toJSON
 
-The toJSON plugin applies the following changes in the toJSON transform call:
+El complemento toJSON aplica los siguientes cambios en la llamada de transformación toJSON:
 
-- removes \_\_v, createdAt, updatedAt, and any schema path that has private: true
-- replaces \_id with id
+- elimina \ _ \ _ v, createdAt, updatedAt y cualquier ruta de esquema que tenga private: true
+- reemplaza \ _id con id
 
 ### paginate
 
-The paginate plugin adds the `paginate` static method to the mongoose schema.
+El complemento paginate agrega el método estático `paginate` al esquema de mangosta.
 
-Adding this plugin to the `User` model schema will allow you to do the following:
+Agregar este complemento al esquema del modelo `Usuario` le permitirá hacer lo siguiente:
 
 ```javascript
 const queryUsers = async (filter, options) => {
@@ -301,21 +275,21 @@ const queryUsers = async (filter, options) => {
 };
 ```
 
-The `filter` param is a regular mongo filter.
+El parámetro `filter` es un filtro mongo regular.
 
-The `options` param can have the following (optional) fields:
+El parámetro `options` puede tener los siguientes campos (opcionales):
 
 ```javascript
 const options = {
-  sortBy: 'name:desc', // sort order
-  limit: 5, // maximum results per page
-  page: 2, // page number
+  sortBy: 'name:desc', // ordenar por
+  limit: 5, // maximo de resultados por página
+  page: 2, // numero de página
 };
 ```
 
-The plugin also supports sorting by multiple criteria (separated by a comma): `sortBy: name:desc,role:asc`
+El complemento también admite la clasificación por varios criterios (separados por una coma): `sortBy: name: desc, role: asc`
 
-The `paginate` method returns a Promise, which fulfills with an object having the following properties:
+El método `paginate` devuelve una Promise, que cumple con un objeto que tiene las siguientes propiedades:
 
 ```json
 {
@@ -326,29 +300,3 @@ The `paginate` method returns a Promise, which fulfills with an object having th
   "totalResults": 48
 }
 ```
-
-## Linting
-
-Linting is done using [ESLint](https://eslint.org/) and [Prettier](https://prettier.io).
-
-In this app, ESLint is configured to follow the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base) with some modifications. It also extends [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) to turn off all rules that are unnecessary or might conflict with Prettier.
-
-To modify the ESLint configuration, update the `.eslintrc.json` file. To modify the Prettier configuration, update the `.prettierrc.json` file.
-
-To prevent a certain file or directory from being linted, add it to `.eslintignore` and `.prettierignore`.
-
-To maintain a consistent coding style across different IDEs, the project contains `.editorconfig`
-
-## Contributing
-
-Contributions are more than welcome! Please check out the [contributing guide](CONTRIBUTING.md).
-
-## Inspirations
-
-- [danielfsousa/express-rest-es2017-boilerplate](https://github.com/danielfsousa/express-rest-es2017-boilerplate)
-- [madhums/node-express-mongoose](https://github.com/madhums/node-express-mongoose)
-- [kunalkapadia/express-mongoose-es6-rest-api](https://github.com/kunalkapadia/express-mongoose-es6-rest-api)
-
-## License
-
-[MIT](LICENSE)
