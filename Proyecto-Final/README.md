@@ -88,6 +88,7 @@ EMAIL_FROM=support@yourapp.com
 
 ## Estructura del proyecto
 
+Se implemento una estructura basada en capas (MVC)
 ```
 src\
   | --config \ # Variables de entorno y cosas relacionadas con la configuración
@@ -105,7 +106,13 @@ src\
 
 ## API Documentation
 
-Para ver el listado de endpoints y sus especificaciones, importar el archivo Entrega_Final.postman_collection.json en Postman
+Para ver el listado de endpoints y sus especificaciones, importar el archivo Entrega_Final.postman_collection.json en el cliente de Postman.
+
+Recordar configurar el header de autenticacion con esquema bearer en la colección de postman.
+1. Registrarse
+2. Logearse
+3. Copiar el access token obtenido en el paso anterior
+4. Ingresar el access token como Autenticación en la configuración de la colección de Postman
 
 ### API Endpoints
 
@@ -125,10 +132,12 @@ Listado de rutas disponibles:
 `DELETE /api/products/:productId` - eliminar un producto
 
 **Cart routes**:\
-
+`POST /api/cart/addProduct` - Añadir producto al carrito
+`POST /api/cart/removeProduct` - Remover producto del carrito
 
 **Order routes**:\
-
+`GET /api/order/` - Obtener todas las ordenes
+`POST /api/order/confirmar` - Confirmar la orden actual en carrito para el usuario logeado
 
 ## Error Handling
 
@@ -145,7 +154,6 @@ const controller = catchAsync(async (req, res) => {
 });
 ```
 El middleware de manejo de errores envía una respuesta de error, que tiene el siguiente formato:
-
 
 ```json
 {
@@ -171,6 +179,8 @@ const getUser = async (userId) => {
   }
 };
 ```
+
+Al suceder un error, se devuelve una vista generada en EJS con el numero de error y el mensaje
 
 ## Validacion
 
@@ -310,3 +320,14 @@ El método `paginate` devuelve una Promise, que cumple con un objeto que tiene l
 ### autoIncrement
 
 Para autoincrementar el número de orden en el modelo de ordenes, se utiliza el paquete npm `mongoose-auto-increment`(https://www.npmjs.com/package/mongoose-auto-increment)
+
+## Aclaraciones
+
+#### Duracion del tiempo de sesión
+Se puede configurar en las variables de entorno
+
+#### Configuracion de diversos entornos
+No se generaron varios archivos .env debido a la recomendación de la misma libreria, en su lugar se utilizo un archivo config que obtiene las variables de .env y luego modifica la configuración en base al entorno (Desarrollo o Producción).
+
+
+
