@@ -11,41 +11,38 @@ yarn dev
 
 - [Entrega Final de Lautaro Garcia para el curso de Coderhouse Backend](#entrega-final-de-lautaro-garcia-para-el-curso-de-coderhouse-backend)
   - [Quick Start](#quick-start)
-  - [Table of Contents](#table-of-contents)
+  - [Tabla de contenidos](#table-of-contents)
   - [Features](#features)
-  - [Commands](#commands)
-  - [Environment Variables](#environment-variables)
-  - [Project Structure](#project-structure)
+  - [Comandos](#commands)
+  - [Variables de entorno](#environment-variables)
+  - [Estructura del proyecto](#project-structure)
   - [API Documentation](#api-documentation)
     - [API Endpoints](#api-endpoints)
   - [Error Handling](#error-handling)
-  - [Validation](#validation)
-  - [Authentication](#authentication)
-  - [Authorization](#authorization)
+  - [Validacion](#validation)
+  - [Autenticacion](#authentication)
+  - [Autorizacion](#authorization)
   - [Logging](#logging)
   - [Custom Mongoose Plugins](#custom-mongoose-plugins)
     - [toJSON](#tojson)
     - [paginate](#paginate)
-  - [Linting](#linting)
-  - [Contributing](#contributing)
-  - [Inspirations](#inspirations)
-  - [License](#license)
+    - [autoincrement](#autoincrement)
 
 ## Features
 
 - **NoSQL database**: [MongoDB](https://www.mongodb.com) Object data modeling utilizando [Mongoose](https://mongoosejs.com)
-- **Authentication and authorization**: utilizando JWT [passport](http://www.passportjs.org)
-- **Validation**: request data validation con [Joi](https://github.com/hapijs/joi)
+- **Autenticacion and autorizacion**: utilizando JWT [passport](http://www.passportjs.org)
+- **Validacion**: request data validation con [Joi](https://github.com/hapijs/joi)
 - **Logging**: utilizando [winston](https://github.com/winstonjs/winston) and [morgan](https://github.com/expressjs/morgan)
 - **Error handling**: mecanismo de error handling centralizado.
-- **API documentation**: Con [Postman](https://www.postman.com/).
-- **Process management**: Administración de procesos con [PM2](https://pm2.keymetrics.io)
-- **Dependency management**: Utilizando [Yarn](https://yarnpkg.com)
-- **Environment variables**: Utilizando [dotenv](https://github.com/motdotla/dotenv) y [cross-env](https://github.com/kentcdodds/cross-env#readme) para diversos entornos (Windows/Mac/Linux)
-- **Security**: Seteo de headers HTTP con [helmet](https://helmetjs.github.io)
-- **Santizing**: Sanitización de las request ante xss y query injection
+- **Documentación de la API**: con [Postman](https://www.postman.com/).
+- **Administración de procesos**: con [PM2](https://pm2.keymetrics.io)
+- **Manejo de dependencias**: Utilizando [Yarn](https://yarnpkg.com)
+- **Variables de entorno**: Utilizando [dotenv](https://github.com/motdotla/dotenv) y [cross-env](https://github.com/kentcdodds/cross-env#readme) para diversos entornos (Windows/Mac/Linux)
+- **Seguridad**: Seteo de headers HTTP con [helmet](https://helmetjs.github.io)
+- **Sanitizacion**: Sanitización de las request ante xss y query injection
 - **CORS**: Cross-Origin Resource-Sharing habilitado utilizando [cors](https://github.com/expressjs/cors)
-- **Compression**: gzip compression con [compression](https://github.com/expressjs/compression)
+- **Compresion**: gzip compression con [compression](https://github.com/expressjs/compression)
 
 ## Commands
 
