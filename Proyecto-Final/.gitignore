@@ -8,5 +8,6 @@ yarn-error.log
 .env*
 !.env*.example
 
-# Code coverage
-coverage
+# Text editor configuration
+.idea
+.vscode
