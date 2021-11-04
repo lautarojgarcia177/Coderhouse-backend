@@ -6,7 +6,7 @@ const { cartService, userService } = require('../services');
 
 const getCart = catchAsync(async (req, res) => {
   const user = req.user;
-  const cart = await cartService.getCartByUser(req.user);
+  const cart = await cartService.getCurrentUnconfirmedCartByUser(req.user);
   if (!cart) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
   }
@@ -20,7 +20,6 @@ const addProductToCart = catchAsync(async (req, res) => {
 });
 
 const removeProductFromCart = catchAsync(async (req, res) => {
-  debugger;
   const user = await userService.getUserByEmail(req.user.email);
   const cart = await cartService.removeProductFromCart(user, req.body.product, req.body.amount);
   res.send(cart);

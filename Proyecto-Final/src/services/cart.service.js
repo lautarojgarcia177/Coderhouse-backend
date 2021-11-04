@@ -47,6 +47,10 @@ const getCartByUser = async (user) => {
     return Cart.findOne({ user: user._doc._id });
 };
 
+const getCurrentUnconfirmedCartByUser = async (user) => {
+    return Cart.findOne({ user: user._doc._id, datetimeConfirmed: null })
+}
+
 /**
  * Update cart by id
  * @param {ObjectId} cartId
@@ -89,7 +93,7 @@ const addProductToCart = async (user, productId, amount) => {
     if (!_product) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
     }
-    let cart = await Cart.findOne({ user: user._doc._id, datetime: null });
+    let cart = await Cart.findOne({ user: user._doc._id, datetimeConfirmed: null });
     if (!cart) {
         cart = await createCart(user)
     }
@@ -118,7 +122,7 @@ const removeProductFromCart = async (user, productId, amount) => {
     if (!_product) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
     }
-    const cart = await Cart.findOne({ user: user._doc._id, datetime: null });
+    const cart = await Cart.findOne({ user: user._doc._id, datetimeConfirmed: null });
     if (!cart) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
     }
@@ -137,11 +141,11 @@ const removeProductFromCart = async (user, productId, amount) => {
 }
 
 confirmCart = async (user) => {
-    const cart = await Cart.findOne({ user: user._doc._id, datetime: null });
+    const cart = await Cart.findOne({ user: user._doc._id, datetimeConfirmed: null });
     if (!cart) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Cart not found');
     }
-    Object.assign(cart, { datetime: new Date() });
+    Object.assign(cart, { datetimeConfirmed: new Date() });
     await cart.save();
     return cart;
 }
@@ -155,5 +159,6 @@ module.exports = {
     deleteCartById,
     addProductToCart,
     removeProductFromCart,
-    confirmCart
+    confirmCart,
+    getCurrentUnconfirmedCartByUser
 };

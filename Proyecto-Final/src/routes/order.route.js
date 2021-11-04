@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
     .route('/')
-    // .get(authMiddlewares.auth(), validate(cartValidation.getOrders), cartController.getCart);
+    .get(authMiddlewares.auth(), validate(orderValidation.getOrders), orderController.getOrders);
 
 router
     .route('/confirm')

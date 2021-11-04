@@ -32,7 +32,7 @@ const cartSchema = mongoose.Schema(
         deliveryAddress: {
             type: String
         },
-        datetime: {
+        datetimeConfirmed: {
             type: Date
         }
     },

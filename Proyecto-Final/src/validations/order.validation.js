@@ -3,13 +3,19 @@ const { objectId, password } = require('./custom.validation');
 
 const confirmOrder = {
     body: Joi.object()
-        .keys({
-            cart: Joi.required().custom(objectId),
-        })
-        .min(1)
-        .max(1)
+        .keys({})
 };
+
+const getOrders = {
+    query: Joi.object().keys({
+        name: Joi.string(),
+        sortBy: Joi.string(),
+        limit: Joi.number().integer(),
+        page: Joi.number().integer()
+    })
+}
 
 module.exports = {
     confirmOrder,
+    getOrders
 };
