@@ -124,6 +124,12 @@ Listado de rutas disponibles:
 `PATCH /api/products/:productId` - actualizar un producto\
 `DELETE /api/products/:productId` - eliminar un producto
 
+**Cart routes**:\
+
+
+**Order routes**:\
+
+
 ## Error Handling
 
 La aplicación tiene un mecanismo de manejo de errores centralizado.
