@@ -329,5 +329,6 @@ Se puede configurar en las variables de entorno
 #### Configuracion de diversos entornos
 No se generaron varios archivos .env debido a la recomendación de la misma libreria, en su lugar se utilizo un archivo config que obtiene las variables de .env y luego modifica la configuración en base al entorno (Desarrollo o Producción).
 
-
+#### Fecha y hora de las ordenes
+Se obtiene mediante los campos createdAt y updatedAt que mongoose agrega al pasarle la configuración "timestamps" al modelo
 
